@@ -153,7 +153,7 @@ export function Navbar() {
                             </div>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link href="/user" className="flex items-center">
+                                <Link href="/author/" className="flex items-center">
                                     <UserIcon className="mr-2 h-4 w-4" />
                                     Mon Profil
                                 </Link>
