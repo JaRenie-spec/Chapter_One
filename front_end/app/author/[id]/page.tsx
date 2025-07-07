@@ -7,7 +7,7 @@ import { Footer } from '@/components/app/Footer/Footer'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { authorService, bookService } from '@/lib/api'
+import { authorService, bookService, eventService, Event } from '@/lib/api'
 import { useApi } from '@/lib/hooks/useApi'
 import { Book } from '@/lib/api'
 import Link from 'next/link'
@@ -22,12 +22,22 @@ export default function AuthorPublicProfilePage() {
     const { user, isAuthenticated } = useAuth();
     const [deletingBookId, setDeletingBookId] = useState<string | null>(null);
     const [bookError, setBookError] = useState<string | null>(null);
+    const [events, setEvents] = useState<Event[]>([]);
+    const [loadingEvents, setLoadingEvents] = useState(false);
+    const [errorEvents, setErrorEvents] = useState<string | null>(null);
+    const [deletingEventId, setDeletingEventId] = useState<string | null>(null);
+    const [eventError, setEventError] = useState<string | null>(null);
 
     useEffect(() => {
         if (authorId) {
-            execute(authorId)
+            execute(authorId);
+            setLoadingEvents(true);
+            eventService.getByAuthor?.(authorId).then(res => {
+                if (res?.success) setEvents(res.data || []);
+                else setErrorEvents(res?.error || 'Erreur lors du chargement des événements');
+            }).finally(() => setLoadingEvents(false));
         }
-    }, [authorId, execute])
+    }, [authorId, execute]);
 
     if (loading) return <div>Chargement...</div>
     if (error) return <div>Erreur: {error}</div>
@@ -62,6 +72,20 @@ export default function AuthorPublicProfilePage() {
             setBookError(res.error || 'Erreur lors de la suppression');
         }
         setDeletingBookId(null);
+    };
+
+    const handleDeleteEvent = async (eventId: string) => {
+        if (!confirm('Voulez-vous vraiment supprimer cet événement ?')) return;
+        setDeletingEventId(eventId);
+        setEventError(null);
+        const res = await eventService.delete(eventId);
+        if (res.success) {
+            // Rafraîchir la liste des événements
+            eventService.getByAuthor(authorId).then(r => setEvents(r.data || []));
+        } else {
+            setEventError(res.error || 'Erreur lors de la suppression');
+        }
+        setDeletingEventId(null);
     };
 
     return (
@@ -137,6 +161,44 @@ export default function AuthorPublicProfilePage() {
                             </div>
                         ) : (
                             <div className="text-muted-foreground">Aucun livre trouvé.</div>
+                        )}
+                    </div>
+                </section>
+                <section className="px-6 py-8">
+                    <div className="max-w-3xl mx-auto">
+                        <h2 className="text-2xl font-semibold mb-4">Événements</h2>
+                        {eventError && <div className="text-red-500 mb-2">{eventError}</div>}
+                        {loadingEvents ? (
+                            <div>Chargement des événements…</div>
+                        ) : errorEvents ? (
+                            <div className="text-red-500">{errorEvents}</div>
+                        ) : events.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {events.map(event => (
+                                    <Card key={event.id} className="flex flex-col">
+                                        <CardHeader>
+                                            <CardTitle>{event.title}</CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="flex-1">
+                                            <p className="text-muted-foreground mb-2">{event.description}</p>
+                                            <p className="text-xs text-muted-foreground">{new Date(event.dateEvent).toLocaleString('fr-FR')}</p>
+                                        </CardContent>
+                                        <div className="flex gap-2 px-6 pb-4">
+                                            <Link href={`/events/${event.id}`}><Button size="sm" variant="outline">Voir</Button></Link>
+                                            {isOwnerOrAdmin && (
+                                                <>
+                                                    <Link href={`/events/${event.id}/edit`}><Button size="sm" variant="outline">Modifier</Button></Link>
+                                                    <Button size="sm" variant="destructive" onClick={() => handleDeleteEvent(event.id)} disabled={deletingEventId === event.id}>
+                                                        {deletingEventId === event.id ? 'Suppression…' : 'Supprimer'}
+                                                    </Button>
+                                                </>
+                                            )}
+                                        </div>
+                                    </Card>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-muted-foreground">Aucun événement trouvé.</div>
                         )}
                     </div>
                 </section>

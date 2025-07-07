@@ -1,27 +1,64 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.remove = exports.update = exports.findByPublicInfo = exports.findOne = exports.findAll = void 0;
+exports.remove = exports.update = exports.findByPublicInfo = exports.findOne = exports.create = exports.findAll = void 0;
 const client_1 = require("@prisma/client");
+const author_service_1 = require("../services/author.service");
 const prisma = new client_1.PrismaClient();
 /**
  * GET /authors
  */
 const findAll = async (_req, res) => {
-    const authors = await prisma.author.findMany();
+    const authors = await prisma.author.findMany({
+        where: { deletedAt: null },
+        include: { books: true }
+    });
     res.json(authors);
 };
 exports.findAll = findAll;
 /**
+ * POST /authors
+ */
+const create = async (req, res) => {
+    try {
+        const { firstName, lastName, pseudo, email, bio, link } = req.body;
+        const newAuthor = await (0, author_service_1.createAuthor)({
+            firstName,
+            lastName,
+            pseudo,
+            email,
+            bio,
+            link,
+            password: 'temp_password', // Sera géré par Keycloak
+        });
+        res.status(201).json(newAuthor);
+    }
+    catch (error) {
+        console.error('Erreur création auteur:', error);
+        res.status(400).json({ error: 'Impossible de créer l\'auteur' });
+    }
+};
+exports.create = create;
+/**
  * GET /authors/:id
  */
 const findOne = async (req, res) => {
+    console.log('GET /authors/:id called', { params: req.params, headers: req.headers });
     const { id } = req.params;
-    const author = await prisma.author.findUnique({ where: { id } });
-    if (!author) {
-        res.status(404).json({ error: 'Auteur non trouvé' });
-        return;
+    try {
+        const author = await prisma.author.findUnique({
+            where: { id },
+            include: { books: true }
+        });
+        if (!author) {
+            res.status(404).json({ error: 'Auteur non trouvé' });
+            return;
+        }
+        res.json(author);
     }
-    res.json(author);
+    catch (err) {
+        console.error('Erreur dans findOne:', err);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
 };
 exports.findOne = findOne;
 /**GET /authors/search

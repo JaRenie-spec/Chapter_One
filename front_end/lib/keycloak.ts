@@ -131,7 +131,13 @@ class KeycloakService {
       throw new Error('Erreur lors de la récupération des informations utilisateur');
     }
 
-    return response.json();
+    const user = await response.json();
+    // Injecter les rôles à partir du token JWT
+    const decoded = parseJwt(this.token);
+    if (decoded && decoded.realm_access && decoded.realm_access.roles) {
+      user.realm_access = decoded.realm_access;
+    }
+    return user;
   }
 
   // Rafraîchir le token
@@ -231,4 +237,18 @@ export const keycloakService = new KeycloakService();
 // Initialiser le service au chargement
 if (typeof window !== 'undefined') {
   keycloakService.init();
+}
+
+// Ajout d'une fonction utilitaire pour parser le JWT
+function parseJwt(token: string): any {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return {};
+  }
 }

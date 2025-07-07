@@ -7,7 +7,7 @@ const event_validator_1 = require("../middlewares/event.validator");
 const event_controller_1 = require("../controllers/event.controller");
 const router = (0, express_1.Router)();
 router.get('/', event_controller_1.findAll);
-router.get('/:id', protect_1.protect, (0, requireRole_1.requireRole)(['admin']), event_controller_1.findOne);
+router.get('/:id', event_controller_1.findOne);
 router.post('/', protect_1.protect, (0, requireRole_1.requireRole)(['author', 'admin']), event_validator_1.validateEvent, event_controller_1.create);
 router.put('/:id', protect_1.protect, (0, requireRole_1.requireRole)(['author', 'admin']), event_validator_1.validateEvent, event_controller_1.update);
 router.delete('/:id', protect_1.protect, (0, requireRole_1.requireRole)(['author', 'admin']), event_controller_1.remove);

@@ -7,7 +7,13 @@ const prisma = new client_1.PrismaClient();
  * GET /books
  */
 const findAll = async (_req, res) => {
-    const books = await prisma.book.findMany();
+    const books = await prisma.book.findMany({
+        include: {
+            author: {
+                select: { pseudo: true, firstName: true, lastName: true }
+            }
+        }
+    });
     res.json(books);
 };
 exports.findAll = findAll;
@@ -16,7 +22,10 @@ exports.findAll = findAll;
  */
 const findOne = async (req, res) => {
     const { id } = req.params;
-    const book = await prisma.book.findUnique({ where: { id } });
+    const book = await prisma.book.findUnique({
+        where: { id },
+        include: { author: { select: { id: true, pseudo: true, firstName: true, lastName: true } } }
+    });
     if (!book) {
         res.status(404).json({ error: 'Livre non trouvé' });
         return;
@@ -116,7 +125,7 @@ const update = async (req, res) => {
     const { sub, roles } = req.user;
     const isAdmin = roles.includes('admin');
     // Récupérer le livre et vérifier existence
-    const book = await prisma.book.findUnique({ where: { id } });
+    const book = await prisma.book.findUnique({ where: { id }, include: { author: true } });
     if (!book) {
         res.status(404).json({ error: 'Livre non trouvé' });
         return;
