@@ -59,17 +59,20 @@ export default function BookSearch() {
       {loading && <p>Chargement...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
-      <div className="mt-4">
-        {results.length > 0 && (
-          <ul className="space-y-2">
-            {results.map((book) => (
-              <li key={book.isbn} className="border p-2 rounded">
-                <strong>{book.title}</strong> – {book.author?.pseudo || `${book.author?.firstName} ${book.author?.lastName}`}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {results.length > 0 && (
+        <ul className="mt-4 space-y-2">
+          {results.map((book, idx) => (
+            <li
+              key={book.id ?? book.isbn ?? idx}
+              className="border p-2 rounded"
+            >
+              <strong>{book.title}</strong> –{" "}
+              {book.author?.pseudo ||
+                `${book.author?.firstName} ${book.author?.lastName}`}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

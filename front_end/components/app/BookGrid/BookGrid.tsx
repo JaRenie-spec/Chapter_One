@@ -29,7 +29,7 @@ export default function BookGrid({ books, loading, error }: BookGridProps) {
         return (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {[...Array(8)].map((_, index) => (
-                    <div key={index} className="animate-pulse">
+                    <div key={`loading-placeholder-${index}`} className="animate-pulse">
                         <div className="bg-gray-200 rounded-lg h-64 mb-4"></div>
                         <div className="h-4 bg-gray-200 rounded mb-2"></div>
                         <div className="h-3 bg-gray-200 rounded w-2/3"></div>
@@ -43,7 +43,7 @@ export default function BookGrid({ books, loading, error }: BookGridProps) {
         return (
             <div className="text-center py-12">
                 <div className="text-red-500 mb-4">
-                    {/* Icône d'erreur (tu peux en rajouter ici si tu veux) */}
+                    {/* Icône d'erreur */}
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Erreur de chargement</h3>
                 <p className="text-muted-foreground mb-4">{error}</p>
@@ -65,9 +65,9 @@ export default function BookGrid({ books, loading, error }: BookGridProps) {
 
     return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {books.map((book) => (
+            {books.map((book, idx) => (
                 <BookCard
-                    key={book.id}
+                    key={book.id ?? `book-${idx}`}
                     title={book.title}
                     author={book.author?.pseudo ?? 'Auteur inconnu'}
                     rating={book.rating || 0}
