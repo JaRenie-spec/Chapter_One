@@ -7,7 +7,8 @@ import {
   findOne as eventFindOne,
   create as eventCreate,
   update as eventUpdate,
-  remove as eventRemove
+  remove as eventRemove,
+  findAllByAuthor as eventFindAllByAuthor
 } from '../controllers/event.controller';
 
 const router = Router();
@@ -20,5 +21,7 @@ router.post('/', protect, requireRole(['author','admin']), validateEvent, eventC
 router.put('/:id', protect, requireRole(['author','admin']), validateEvent, eventUpdate);
 
 router.delete('/:id', protect, requireRole(['author','admin']), eventRemove);
+
+router.get('/author/:authorId', eventFindAllByAuthor);
 
 export default router;

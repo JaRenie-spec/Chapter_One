@@ -1,8 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAuthor = exports.updateAuthor = exports.getAuthorById = exports.getAllAuthors = void 0;
+exports.deleteAuthor = exports.updateAuthor = exports.getAuthorById = exports.getAllAuthors = exports.createAuthor = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
+// 🔹 Créer un nouvel auteur
+const createAuthor = async (data) => {
+    try {
+        return await prisma.author.create({
+            data: {
+                ...data,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            include: {
+                books: true,
+                events: true,
+                reviews: true,
+            },
+        });
+    }
+    catch (err) {
+        console.error("Erreur création auteur :", err);
+        throw new Error("Impossible de créer l'auteur.");
+    }
+};
+exports.createAuthor = createAuthor;
 // 🔹 Lister tous les auteurs (avec relations)
 const getAllAuthors = async () => {
     try {

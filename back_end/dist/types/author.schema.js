@@ -9,6 +9,7 @@ exports.createAuthorSchema = zod_1.z.object({
     email: zod_1.z.string().email("Email invalide"),
     password: zod_1.z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
     bio: zod_1.z.string().max(2000).optional(),
+    link: zod_1.z.string().optional(),
     createdByAdminId: zod_1.z.string().optional(),
 });
 exports.updateAuthorSchema = exports.createAuthorSchema.partial();

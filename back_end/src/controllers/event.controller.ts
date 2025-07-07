@@ -8,7 +8,13 @@ const prisma = new PrismaClient();
  * GET /events
  */
 export const findAll: RequestHandler = async (_req, res) => {
-  const events = await prisma.event.findMany();
+  const events = await prisma.event.findMany({
+    include: {
+      author: {
+        select: { id: true, pseudo: true, firstName: true, lastName: true }
+      }
+    }
+  });
   res.json(events);
 };
 
@@ -17,7 +23,14 @@ export const findAll: RequestHandler = async (_req, res) => {
  */
 export const findOne: RequestHandler = async (req, res) => {
   const { id } = req.params;
-  const event = await prisma.event.findUnique({ where: { id } });
+  const event = await prisma.event.findUnique({
+    where: { id },
+    include: {
+      author: {
+        select: { id: true, pseudo: true, firstName: true, lastName: true }
+      }
+    }
+  });
   if (!event) {
     res.status(404).json({ error: 'Événement non trouvé' });
     return;
@@ -127,4 +140,20 @@ export const remove: RequestHandler = async (req, res) => {
     console.error('Erreur suppression événement :', err);
     res.status(500).json({ error: 'Impossible de supprimer l\'événement.' });
   }
+};
+
+/**
+ * GET /events/author/:authorId
+ */
+export const findAllByAuthor: RequestHandler = async (req, res) => {
+  const { authorId } = req.params;
+  const events = await prisma.event.findMany({
+    where: { authorId },
+    include: {
+      author: {
+        select: { id: true, pseudo: true, firstName: true, lastName: true }
+      }
+    }
+  });
+  res.json(events);
 };

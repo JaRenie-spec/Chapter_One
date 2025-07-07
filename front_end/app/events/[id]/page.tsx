@@ -13,6 +13,7 @@ import {
   MapPin,
   Users as UsersIcon
 } from 'lucide-react'
+import { useAuth } from '@/lib/hooks/useAuth'
 
 export default function EventDetailPage() {
   const { id: rawId } = useParams() as { id?: string }
@@ -22,6 +23,7 @@ export default function EventDetailPage() {
   const router = useRouter()
   const { data: event, loading, error, execute } = useApi<Event>(eventService.getById)
   const { execute: deleteEvent } = useApi<void>(eventService.delete)
+  const { user: kcUser, isAuthenticated } = useAuth()
 
   useEffect(() => { execute(id) }, [id, execute])
 
@@ -96,12 +98,16 @@ export default function EventDetailPage() {
 
             <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">
               <h3 className="font-medium text-muted-foreground">Actions</h3>
-              <Button variant="secondary" className="w-full" onClick={() => router.push(`/events/${id}/edit`)}>
-                Modifier
-              </Button>
-              <Button variant="destructive" className="w-full" onClick={handleDelete}>
-                Supprimer
-              </Button>
+              {(isAuthenticated && (kcUser?.sub === event.author?.id || kcUser?.realm_access?.roles.includes('admin'))) && (
+                <>
+                  <Button variant="secondary" className="w-full" onClick={() => router.push(`/events/${id}/edit`)}>
+                    Modifier
+                  </Button>
+                  <Button variant="destructive" className="w-full" onClick={handleDelete}>
+                    Supprimer
+                  </Button>
+                </>
+              )}
               <Button variant="link" className="w-full" onClick={() => router.push('/events')}>
                 ← Retour
               </Button>

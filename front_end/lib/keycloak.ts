@@ -112,7 +112,34 @@ export class KeycloakService {
     return this.user!;
   }
 
-  /** Permet de rafraîchir l’access token avec le refreshToken */
+  // Récupérer les informations utilisateur
+  private async getUserInfo(): Promise<KeycloakUser> {
+    if (!this.token) {
+      throw new Error('Aucun token disponible');
+    }
+
+    const userInfoUrl = `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/userinfo`;
+
+    const response = await fetch(userInfoUrl, {
+      headers: {
+        'Authorization': `Bearer ${this.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des informations utilisateur');
+    }
+
+    const user = await response.json();
+    // Injecter les rôles à partir du token JWT
+    const decoded = parseJwt(this.token);
+    if (decoded && decoded.realm_access && decoded.realm_access.roles) {
+      user.realm_access = decoded.realm_access;
+    }
+    return user;
+  }
+
+  // Rafraîchir le token
   async refreshAccessToken(): Promise<string> {
     if (!this.refreshToken) {
       throw new Error('Aucun refresh token disponible');
@@ -175,4 +202,18 @@ export class KeycloakService {
 export const keycloakService = new KeycloakService();
 if (typeof window !== 'undefined') {
   keycloakService.init();
+}
+
+// Ajout d'une fonction utilitaire pour parser le JWT
+function parseJwt(token: string): any {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return {};
+  }
 }

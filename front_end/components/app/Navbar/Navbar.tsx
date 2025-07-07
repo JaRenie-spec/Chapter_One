@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/lib/hooks/useAuth'
 import { useCart } from '@/lib/hooks/useCart'
+import { useRouter } from 'next/navigation'
 
 export function Navbar() {
     const {
@@ -32,6 +33,7 @@ export function Navbar() {
     } = useAuth()
     const { cart, removeFromCart, updateQuantity } = useCart()
     const cartCount = cart.reduce((sum, item) => sum + (typeof item.quantity === 'number' && !isNaN(item.quantity) ? item.quantity : 0), 0)
+    const router = useRouter()
 
     return (
         <nav className="flex items-center justify-between w-full px-6 py-4 bg-white shadow-sm">
@@ -56,12 +58,19 @@ export function Navbar() {
                     Événements
                 </Link>
 
-                {isAuthenticated && (
-                    <Link href="/books/create">
-                        <Button variant="outline" size="sm">
-                            Publier un livre
-                        </Button>
-                    </Link>
+                {isAuthenticated && kcUser?.realm_access?.roles.includes('author') && (
+                    <>
+                        <Link href="/books/create">
+                            <Button variant="outline" size="sm">
+                                Publier un livre
+                            </Button>
+                        </Link>
+                        <Link href="/events/create">
+                            <Button variant="outline" size="sm">
+                                Créer un évènement
+                            </Button>
+                        </Link>
+                    </>
                 )}
             </div>
 
@@ -152,11 +161,18 @@ export function Navbar() {
                                 </p>
                             </div>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <Link href="/user" className="flex items-center">
-                                    <UserIcon className="mr-2 h-4 w-4" />
-                                    Mon Profil
-                                </Link>
+                            <DropdownMenuItem
+                                onClick={() => {
+                                    if (kcUser?.realm_access?.roles.includes('author')) {
+                                        router.push(`/author/${kcUser.sub}`)
+                                    } else {
+                                        router.push('/user')
+                                    }
+                                }}
+                                className="flex items-center cursor-pointer"
+                            >
+                                <UserIcon className="mr-2 h-4 w-4" />
+                                Mon Profil
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
                                 <Link href="/user/settings" className="flex items-center">

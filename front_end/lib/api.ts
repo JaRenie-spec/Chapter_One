@@ -139,7 +139,14 @@ export async function apiCall<T>(
 export const bookService = {
   getAll: () => apiCall<Book[]>('/books'),
   getById: (id: string) => apiCall<Book>(`/books/${id}`),
-  search: (query: string) => apiCall<Book[]>(`/books/search?title=${encodeURIComponent(query)}`),
+  search: (criteria: { title?: string; pseudo?: string; firstName?: string; lastName?: string; isbn?: string }) => {
+    const params = new URLSearchParams();
+    if (criteria.title) params.append('title', criteria.title);
+    if (criteria.pseudo) params.append('pseudo', criteria.pseudo);
+    if (criteria.firstName) params.append('firstName', criteria.firstName);
+    if (criteria.lastName) params.append('lastName', criteria.lastName);
+    return apiCall<Book[]>(`/books/search?${params.toString()}`);
+  },
   create: (bookData: Partial<Book>) =>
     apiCall<Book>('/books', { method: 'POST', body: JSON.stringify(bookData) }),
   update: (id: string, bookData: Partial<Book>) =>
@@ -175,6 +182,7 @@ export const eventService = {
   update: (id: string, data: Partial<Event>) =>
     apiCall<Event>(`/events/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id: string) => apiCall<void>(`/events/${id}`, { method: 'DELETE' }),
+  getByAuthor: (authorId: string) => apiCall<Event[]>(`/events/author/${authorId}`),
 };
 
 export const reviewService = {
