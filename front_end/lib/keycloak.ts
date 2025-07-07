@@ -1,18 +1,15 @@
-// Configuration Keycloak
-const KEYCLOAK_URL = process.env.NEXT_PUBLIC_KEYCLOAK_URL || 'http://localhost:8080';
-const KEYCLOAK_REALM = process.env.NEXT_PUBLIC_KEYCLOAK_REALM || 'ebook-store';
-const KEYCLOAK_CLIENT_ID = process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID || 'frontend-client';
+// frontend/src/services/keycloak.ts
+const KEYCLOAK_URL       = process.env.NEXT_PUBLIC_KEYCLOAK_URL!;
+const KEYCLOAK_REALM     = process.env.NEXT_PUBLIC_KEYCLOAK_REALM!;
+const KEYCLOAK_CLIENT_ID = process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID!;
 
-// Types pour l'authentification
 export interface KeycloakUser {
   sub: string;
   email: string;
   preferred_username: string;
   given_name?: string;
   family_name?: string;
-  realm_access?: {
-    roles: string[];
-  };
+  realm_access?: { roles: string[] };
 }
 
 export interface KeycloakTokenResponse {
@@ -24,93 +21,95 @@ export interface KeycloakTokenResponse {
   scope: string;
 }
 
-class KeycloakService {
+export class KeycloakService {
   private token: string | null = null;
   private refreshToken: string | null = null;
   private user: KeycloakUser | null = null;
 
-  // Initialiser le service
   init() {
-    // Récupérer les tokens stockés
     if (typeof window !== 'undefined') {
-      this.token = localStorage.getItem('keycloak_token');
+      this.token        = localStorage.getItem('keycloak_token');
       this.refreshToken = localStorage.getItem('keycloak_refresh_token');
-      const userStr = localStorage.getItem('keycloak_user');
-      if (userStr) {
-        this.user = JSON.parse(userStr);
-      }
+      const u = localStorage.getItem('keycloak_user');
+      if (u) this.user = JSON.parse(u);
     }
   }
 
-  // Rediriger vers la page de connexion Keycloak
   login(redirectTo?: string) {
-    // Par défaut, on redirige vers la page courante
-    const redirectUri = window.location.origin + '/auth/callback';
+    const redirectUri = `${window.location.origin}/auth/callback`;
     const stateObj = {
-      appRedirect: redirectTo || window.location.pathname + window.location.search + window.location.hash,
+      appRedirect: redirectTo ?? window.location.pathname + window.location.search + window.location.hash,
       nonce: this.generateState(),
     };
     const state = encodeURIComponent(JSON.stringify(stateObj));
-    const loginUrl = `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/auth?` +
-      `client_id=${KEYCLOAK_CLIENT_ID}&` +
-      `redirect_uri=${redirectUri}&` +
-      `response_type=code&` +
-      `scope=openid email profile&` +
-      `state=${state}`;
 
-    window.location.href = loginUrl;
+    window.location.href =
+      `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/auth?` +
+      `client_id=${KEYCLOAK_CLIENT_ID}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&response_type=code&scope=openid email profile` +
+      `&state=${state}`;
   }
 
-  // Gérer le retour de Keycloak après connexion
-  async handleCallback(code: string, state: string) {
-    try {
-      // Échanger le code contre un token
-      const tokenResponse = await this.exchangeCodeForToken(code);
-
-      // Stocker les tokens
-      this.token = tokenResponse.access_token;
-      this.refreshToken = tokenResponse.refresh_token;
-
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('keycloak_token', this.token);
-        localStorage.setItem('keycloak_refresh_token', this.refreshToken);
+  /**
+   * Gère le callback OIDC.
+   * On accepte le `state` en second argument (même si on ne l'utilise pas ici).
+   */
+  async handleCallback(code: string, state?: string): Promise<KeycloakUser> {
+    // 1️⃣ Échange code → tokens
+    const tokenRes = await fetch(
+      `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'authorization_code',
+          client_id: KEYCLOAK_CLIENT_ID,
+          code,
+          redirect_uri: `${window.location.origin}/auth/callback`,
+        }),
       }
+    );
+    const tr = await tokenRes.json() as KeycloakTokenResponse;
+    this.token        = tr.access_token;
+    this.refreshToken = tr.refresh_token;
+    localStorage.setItem('keycloak_token', this.token);
+    localStorage.setItem('keycloak_refresh_token', this.refreshToken);
 
-      // Récupérer les informations utilisateur
-      this.user = await this.getUserInfo();
+    // 2️⃣ Récupère userinfo
+    const uiRes = await fetch(
+      `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
+      { headers: { Authorization: `Bearer ${this.token}` } }
+    );
+    this.user = await uiRes.json() as KeycloakUser;
+    localStorage.setItem('keycloak_user', JSON.stringify(this.user));
 
-      if (typeof window !== 'undefined' && this.user) {
-        localStorage.setItem('keycloak_user', JSON.stringify(this.user));
-      }
-
-      return this.user;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  // Échanger le code d'autorisation contre un token
-  private async exchangeCodeForToken(code: string): Promise<KeycloakTokenResponse> {
-    const tokenUrl = `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`;
-    const redirectUri = window.location.origin + '/auth/callback';
-    const response = await fetch(tokenUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: KEYCLOAK_CLIENT_ID,
-        code: code,
-        redirect_uri: redirectUri,
-      }),
+    // 3️⃣ Synchronise en base (via /api/users/me protégé)
+    const syncRes = await fetch('/api/users/me', {
+      headers: { Authorization: `Bearer ${this.token}` }
     });
-
-    if (!response.ok) {
-      throw new Error('Erreur lors de l\'échange du code contre un token');
+    if (!syncRes.ok) {
+      console.error('Sync API failed:', await syncRes.text());
+      throw new Error('Échec de la synchronisation utilisateur');
     }
 
-    return response.json();
+		const account = await syncRes.json() as {
+			id: string;
+			email: string;
+			username: string;
+			roles: string[];
+		}
+
+		this.user = {
+			sub: account.id,
+			email: account.email,
+			preferred_username: account.username,
+			realm_access: { roles: account.roles }
+		};
+
+		localStorage.setItem('keycloak_user', JSON.stringify(this.user));
+
+    return this.user!;
   }
 
   // Récupérer les informations utilisateur
@@ -145,96 +144,62 @@ class KeycloakService {
     if (!this.refreshToken) {
       throw new Error('Aucun refresh token disponible');
     }
-
-    const tokenUrl = `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`;
-
-    const response = await fetch(tokenUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        grant_type: 'refresh_token',
-        client_id: KEYCLOAK_CLIENT_ID,
-        refresh_token: this.refreshToken,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Erreur lors du rafraîchissement du token');
-    }
-
-    const tokenResponse: KeycloakTokenResponse = await response.json();
-
-    this.token = tokenResponse.access_token;
-    this.refreshToken = tokenResponse.refresh_token;
-
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('keycloak_token', this.token);
-      localStorage.setItem('keycloak_refresh_token', this.refreshToken);
-    }
-
+    const res = await fetch(
+      `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'refresh_token',
+          client_id: KEYCLOAK_CLIENT_ID,
+          refresh_token: this.refreshToken,
+        }),
+      }
+    );
+    const tr = await res.json() as KeycloakTokenResponse;
+    this.token        = tr.access_token;
+    this.refreshToken = tr.refresh_token;
+    localStorage.setItem('keycloak_token', this.token);
+    localStorage.setItem('keycloak_refresh_token', this.refreshToken);
     return this.token;
   }
 
-  // Déconnexion
-  logout() {
-    this.token = null;
-    this.refreshToken = null;
-    this.user = null;
-
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('keycloak_token');
-      localStorage.removeItem('keycloak_refresh_token');
-      localStorage.removeItem('keycloak_user');
-
-      // Rediriger vers la page de déconnexion Keycloak
-      const logoutUrl = `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/logout?` +
-        `client_id=${KEYCLOAK_CLIENT_ID}&` +
-        `post_logout_redirect_uri=${encodeURIComponent(window.location.origin)}`;
-
-      window.location.href = logoutUrl;
-    }
-  }
-
-  // Vérifier si l'utilisateur est connecté
-  isAuthenticated(): boolean {
-    return !!this.token && !!this.user;
-  }
-
-  // Obtenir l'utilisateur actuel
-  getCurrentUser(): KeycloakUser | null {
-    return this.user;
-  }
-
-  // Obtenir le token d'accès
-  getAccessToken(): string | null {
-    return this.token;
-  }
-
-  // Générer un état aléatoire pour la sécurité
-  private generateState(): string {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-  }
-
-  // Vérifier si le token est expiré
+  /** Vérifie si l’access token est expiré */
   isTokenExpired(): boolean {
     if (!this.token) return true;
-
     try {
       const payload = JSON.parse(atob(this.token.split('.')[1]));
-      const currentTime = Math.floor(Date.now() / 1000);
-      return payload.exp < currentTime;
+      const now = Math.floor(Date.now() / 1000);
+      return payload.exp < now;
     } catch {
       return true;
     }
   }
+
+  logout() {
+    this.token = this.refreshToken = this.user = null;
+    localStorage.removeItem('keycloak_token');
+    localStorage.removeItem('keycloak_refresh_token');
+    localStorage.removeItem('keycloak_user');
+    window.location.href =
+      `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}` +
+      `/protocol/openid-connect/logout?client_id=${KEYCLOAK_CLIENT_ID}` +
+      `&post_logout_redirect_uri=${encodeURIComponent(window.location.origin)}`;
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.token && !!this.user;
+  }
+  getAccessToken(): string | null { return this.token; }
+  getCurrentUser(): KeycloakUser | null { return this.user; }
+
+  private generateState(): string {
+    return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+  }
 }
 
-// Instance singleton
+// Export et initialisation
 export const keycloakService = new KeycloakService();
-
-// Initialiser le service au chargement
 if (typeof window !== 'undefined') {
   keycloakService.init();
 }

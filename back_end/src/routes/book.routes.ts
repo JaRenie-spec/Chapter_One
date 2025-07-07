@@ -13,9 +13,9 @@ import {
 
 const router = Router();
 
-router.get('/', bookFindAll);
-
 router.get('/search', findByPublicInfo);
+
+router.get('/', bookFindAll);
 
 router.get('/:id', bookFindOne);
 
