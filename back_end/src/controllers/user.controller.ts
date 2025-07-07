@@ -35,12 +35,19 @@ export const findOne: RequestHandler = async (req, res) => {
  */
 export const me: RequestHandler = async (req, res) => {
   const sub = (req as AuthenticatedRequest).user.sub;
-  const user = await prisma.user.findUnique({ where: { id: sub } });
-  if (!user) {
-    res.status(404).json({ error: 'Utilisateur non trouvé' });
-    return;
+
+  // 📌 on interroge maintenant `account` et non plus `user`
+  const account = await prisma.account.findUnique({
+    where: { id: sub }
+  });
+
+  if (!account) {
+    res.status(404).json({ error: 'Account non trouvé' });
+		return;
   }
-  res.json(user);
+
+  // renvoie l’objet Account qui contient id, email, username, roles[]
+  res.json(account);
 };
 
 /**
