@@ -8,7 +8,7 @@ import {
   findOne as bookFindOne,
   create as bookCreate,
   update as bookUpdate,
-  remove as bookRemove
+  remove as bookRemove,
 } from '../controllers/book.controller';
 
 const router = Router();
