@@ -10,21 +10,21 @@ import BookSearch from "./search/BookSearch";
 
 export default function Home() {
     return (
-        <div className="flex flex-col min-h-screen">
-            <header className="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b h-16 flex items-center">
+        <div className="flex flex-col min-h-screen" style={{ background: 'var(--background)', color: 'var(--foreground)' }}>
+            <header className="fixed top-0 left-0 w-full z-50" style={{ background: 'var(--primary)', borderBottom: '2px solid var(--secondary)' }}>
                 <Navbar />
             </header>
 
             <main className="flex flex-1 flex-col">
                 <HeroSection />
 
-                <section className="py-16 px-6 bg-muted/30">
+                <section className="py-16 px-6" style={{ background: 'var(--card)' }}>
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl font-bold mb-4">
+                            <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
                                 Livres à découvrir
                             </h2>
-                            <p className="text-muted-foreground max-w-2xl mx-auto">
+                            <p className="max-w-2xl mx-auto" style={{ color: 'var(--primary)' }}>
                                 Découvrez les coups de cœur de nos lecteurs
                             </p>
                         </div>
@@ -34,15 +34,15 @@ export default function Home() {
 
                 <CategoryGrid />
 
-                <section className="py-16 px-6 bg-muted/30">
+                <section className="py-16 px-6" style={{ background: 'var(--card)' }}>
                     <div className="max-w-6xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-12">
                             <div>
                                 <div className="text-center mb-8">
-                                    <h2 className="text-2xl font-bold mb-2">
+                                    <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
                                         Écrivains à découvrir
                                     </h2>
-                                    <p className="text-muted-foreground">
+                                    <p style={{ color: 'var(--primary)' }}>
                                         Découvrez des auteurs talentueux
                                     </p>
                                 </div>
@@ -51,10 +51,10 @@ export default function Home() {
 
                             <div>
                                 <div className="text-center mb-8">
-                                    <h2 className="text-2xl font-bold mb-2">
+                                    <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
                                         Événements à venir
                                     </h2>
-                                    <p className="text-muted-foreground">
+                                    <p style={{ color: 'var(--primary)' }}>
                                         Rencontrez vos auteurs préférés
                                     </p>
                                 </div>
@@ -64,13 +64,13 @@ export default function Home() {
                     </div>
                 </section>
 
-                <section className="py-16 px-6">
+                <section className="py-16 px-6" style={{ background: 'var(--background)' }}>
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl font-bold mb-4">
+                            <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
                                 Recommandés pour vous
                             </h2>
-                            <p className="text-muted-foreground max-w-2xl mx-auto">
+                            <p className="max-w-2xl mx-auto" style={{ color: 'var(--primary)' }}>
                                 Des livres sélectionnés spécialement selon vos goûts
                             </p>
                         </div>
@@ -78,19 +78,19 @@ export default function Home() {
                     </div>
                 </section>
 
-                <section className="py-16 px-6 bg-muted/30">
+                <section className="py-16 px-6" style={{ background: 'var(--card)' }}>
                     <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-4">
+                        <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
                             Prêt à découvrir de nouveaux auteurs ?
                         </h2>
-                        <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+                        <p className="mb-8 max-w-2xl mx-auto" style={{ color: 'var(--primary)' }}>
                             Rejoignez notre communauté de lecteurs et soutenez les auteurs indépendants
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                            <button className="px-8 py-3 rounded-lg font-medium transition-colors" style={{ background: 'var(--primary)', color: 'var(--background)' }}>
                                 Commencer à explorer
                             </button>
-                            <button className="border border-primary text-primary px-8 py-3 rounded-lg font-medium hover:bg-primary/10 transition-colors">
+                            <button className="border px-8 py-3 rounded-lg font-medium transition-colors" style={{ borderColor: 'var(--primary)', color: 'var(--primary)', background: 'var(--background)' }}>
                                 En savoir plus
                             </button>
                         </div>

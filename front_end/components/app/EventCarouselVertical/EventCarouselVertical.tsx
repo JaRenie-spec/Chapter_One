@@ -21,7 +21,7 @@ export default function EventCarouselVertical() {
             <CarouselContent className="h-full">
                 {events.map((event, i) => (
                     <CarouselItem key={i} className='w-full'>
-                        <div className="bg-card p-4 rounded shadow text-center">
+                        <div className="bg-card p-4 rounded shadow text-center" style={{ background: 'var(--card)', color: 'var(--primary)' }}>
                             <h3 className="font-semibold">{event.name}</h3>
                             <p className="text-muted-foreground text-sm">{event.date}</p>
                         </div>

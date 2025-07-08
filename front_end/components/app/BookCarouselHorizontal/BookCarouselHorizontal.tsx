@@ -36,7 +36,7 @@ export default function BookCarouselHorizontal() {
             <CarouselContent>
                 {books.map((book, i) => (
                     <CarouselItem key={i} className="basis-1/2 md:basis-1/3 lg:basis-1/4 px-2">
-                        <div className="bg-card p-4 rounded shadow text-center h-full">
+                        <div className="bg-card p-4 rounded shadow text-center h-full" style={{ background: 'var(--card)', color: 'var(--primary)' }}>
                             <h3 className="font-semibold">{book.title}</h3>
                             <p className="text-muted-foreground text-sm">{book.author}</p>
                         </div>

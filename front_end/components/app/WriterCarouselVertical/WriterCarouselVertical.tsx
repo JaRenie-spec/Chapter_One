@@ -24,7 +24,7 @@ export default function WriterCarouselVertical() {
             <CarouselContent className="h-full">
                 {writers.map(writer => (
                     <CarouselItem key={writer.id} className="w-full">
-                        <div className="bg-card p-4 rounded shadow text-center">
+                        <div className="bg-card p-4 rounded shadow text-center" style={{ background: 'var(--card)', color: 'var(--primary)' }}>
                             <h3 className="font-semibold">{writer.name}</h3>
                             <p className="text-muted-foreground text-sm">{writer.bio}</p>
                         </div>
