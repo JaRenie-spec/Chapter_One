@@ -41,6 +41,7 @@ model Account {
 // =====================
 
 model SuperAdmin {
+
   id         String    @id @default(uuid())
   name       String
   password   String
@@ -56,6 +57,7 @@ model SuperAdmin {
 }
 
 model Admin {
+
   id               String       @id @default(uuid())
   name             String
   password         String
@@ -166,6 +168,7 @@ model Event {
 }
 
 model Review {
+
   id               String       @id @default(uuid())
   comment          String
   rating           Int
@@ -181,12 +184,14 @@ model Review {
   createdByAdminId String?
   createdByAdmin   Admin?       @relation(fields: [createdByAdminId], references: [id])
 
+
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
   deletedAt        DateTime?
 }
 
 model Purchase {
+
   id               String       @id @default(uuid())
   bookId           String
   userId           String?
@@ -224,6 +229,7 @@ model Stat {
 
   bookId           String       @unique
   book             Book         @relation(fields: [bookId], references: [id])
+
 
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
