@@ -120,7 +120,14 @@ export default function SearchPage() {
                                 )}
 
                                 {/* Grille de livres */}
-                                <BookGrid books={books} loading={loading} error={error} />
+                                <BookGrid
+                                    books={((books ?? []) as any[]).map(book => ({
+                                        ...book,
+                                        id: book.id // On ne fallback plus sur isbn
+                                    }))}
+                                    loading={loading}
+                                    error={error}
+                                />
 
                                 {/* Pagination */}
                                 {books && books.length > 0 && (

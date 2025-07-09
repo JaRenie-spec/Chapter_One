@@ -118,7 +118,8 @@ export const findByPublicInfo: RequestHandler = async (req, res) => {
       return;
     }
 
-    const publicBooks = (books as BookWithAuthor[]).map((book) => ({
+    const publicBooks = (books as any[]).map((book) => ({
+      id: (book as any).id, // Ajout de l'ID UUID
       title: book.title,
       isbn: book.isbn,
       price: book.price,
