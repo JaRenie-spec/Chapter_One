@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Star, Heart, ShoppingCart, BookOpen } from 'lucide-react'
 
@@ -9,6 +10,7 @@ interface BookCardProps {
     rating: number
     price: number
     coverColor?: string
+    coverImage?: string
     onAddToCart?: () => void
     onFavorite?: () => void
     onClickCard?: () => void
@@ -20,6 +22,7 @@ export default function BookCard({
     rating,
     price,
     coverColor = "from-blue-100 to-purple-100",
+    coverImage,
     onAddToCart,
     onFavorite,
     onClickCard
@@ -32,8 +35,20 @@ export default function BookCard({
             onClick={onClickCard}
             onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onClickCard?.() }}
         >
-            <div className={`aspect-[3/4] bg-gradient-to-br ${coverColor} rounded-t-lg flex items-center justify-center`}>
-                <BookOpen className="h-16 w-16 text-primary/60" />
+            <div className={`aspect-[3/4] rounded-t-lg overflow-hidden`}>
+                {coverImage ? (
+                    <Image
+                        src={coverImage}
+                        alt={title}
+                        width={300}
+                        height={400}
+                        className="object-cover w-full h-full"
+                    />
+                ) : (
+                    <div className={`bg-gradient-to-br ${coverColor} flex items-center justify-center w-full h-full`}>
+                        <BookOpen className="h-16 w-16 text-primary/60" />
+                    </div>
+                )}
             </div>
             <div className="p-4">
                 <div className="flex items-start justify-between mb-2">

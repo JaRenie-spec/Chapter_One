@@ -17,6 +17,7 @@ export default function CreateBookForm() {
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
     const [fileUrl, setFileUrl] = useState('')
+    const [coverImage, setCoverImage] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -32,6 +33,7 @@ export default function CreateBookForm() {
             price: parseFloat(price),
             description,
             fileUrl,
+            coverImage,
             authorId: user?.sub,      // ← MUST: fournir authorId
         }
 
@@ -77,7 +79,7 @@ export default function CreateBookForm() {
             </div>
 
             <div>
-                <Label htmlFor="fileUrl">URL de la couverture</Label>
+                <Label htmlFor="fileUrl">URL du livre</Label>
                 <Input
                     id="fileUrl"
                     type="url"
@@ -86,6 +88,17 @@ export default function CreateBookForm() {
                     required
                 />
             </div>
+
+            <div>
+                <Label htmlFor="coverImage">URL de la couverture</Label>
+                <Input
+                    id="coverImage"
+                    type="url"
+                    value={coverImage}
+                    onChange={e => setCoverImage(e.target.value)}
+                />
+            </div>
+
 
             <Button type="submit" disabled={loading} className="w-full">
                 {loading ? 'Publication...' : 'Publier le livre'}

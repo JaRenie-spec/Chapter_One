@@ -12,6 +12,7 @@ export const createBook = async (data: CreateBookInput) => {
     data: {
       ...data,
       fileUrl: data.fileUrl, // Ensures fileUrl is always a string
+      coverImage: data.coverImage ?? null,
       description: data.description ?? null,
       rating: data.rating ?? null,
       createdByAdminId: data.createdByAdminId ?? null,
