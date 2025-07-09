@@ -7,6 +7,7 @@ export const createBookSchema = z.object({
   description: z.string().optional(),
   rating: z.number().min(0).max(5).optional(),
   fileUrl: z.string(),
+  coverImage: z.string(),
   authorId: z.string().uuid(),
   createdByAdminId: z.string().uuid().optional(),
 });
@@ -18,6 +19,7 @@ export const updateBookSchema = z.object({
   description: z.string().optional(),
   rating: z.number().min(0).max(5).optional(),
   fileUrl: z.string().optional(),
+  coverImage: z.string().optional(),
   authorId: z.string().uuid().optional(),
   createdByAdminId: z.string().uuid().optional(),
 });

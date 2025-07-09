@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link"; // ✅ import Link
 
 export default function BookSearch() {
   const [query, setQuery] = useState("");
@@ -9,29 +10,28 @@ export default function BookSearch() {
   const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
-  if (!query.trim()) return;
+    if (!query.trim()) return;
 
-  setLoading(true);
-  setError(null);
+    setLoading(true);
+    setError(null);
 
-  try {
-    console.log("🔍 Recherche pour:", query);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/search?title=${encodeURIComponent(query)}`);
-    console.log("📦 Status:", res.status);
-    if (!res.ok) {
-      throw new Error("Aucun livre trouvé");
+    try {
+      console.log("🔍 Recherche pour:", query);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/search?title=${encodeURIComponent(query)}`);
+      console.log("📦 Status:", res.status);
+      if (!res.ok) {
+        throw new Error("Aucun livre trouvé");
+      }
+      const data = await res.json();
+      console.log("✅ Résultat:", data);
+      setResults(data);
+    } catch (err: any) {
+      console.error("Erreur recherche:", err);
+      setError(err.message || "Erreur lors de la recherche");
+    } finally {
+      setLoading(false);
     }
-    const data = await res.json();
-    console.log("✅ Résultat:", data);
-    setResults(data);
-  } catch (err: any) {
-    console.error("Erreur recherche:", err);
-    setError(err.message || "Erreur lors de la recherche");
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,13 +62,12 @@ export default function BookSearch() {
       {results.length > 0 && (
         <ul className="mt-4 space-y-2">
           {results.map((book, idx) => (
-            <li
-              key={book.id ?? book.isbn ?? idx}
-              className="border p-2 rounded"
-            >
-              <strong>{book.title}</strong> –{" "}
-              {book.author?.pseudo ||
-                `${book.author?.firstName} ${book.author?.lastName}`}
+            <li key={book.id ?? book.isbn ?? idx} className="border p-2 rounded">
+              <Link href={`/books/${book.id}`} className="text-blue-600 hover:underline">
+                <strong>{book.title}</strong> –{" "}
+                {book.author?.pseudo ||
+                  `${book.author?.firstName} ${book.author?.lastName}`}
+              </Link>
             </li>
           ))}
         </ul>
