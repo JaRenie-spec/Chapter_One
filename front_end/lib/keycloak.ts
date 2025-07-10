@@ -75,6 +75,8 @@ export class KeycloakService {
     this.refreshToken = tr.refresh_token;
     localStorage.setItem('keycloak_token', this.token);
     localStorage.setItem('keycloak_refresh_token', this.refreshToken);
+    // AJOUT : synchronisation authToken
+    localStorage.setItem('authToken', this.token);
 
     // 2️⃣ Récupère userinfo
     const uiRes = await fetch(
@@ -108,6 +110,8 @@ export class KeycloakService {
 		};
 
 		localStorage.setItem('keycloak_user', JSON.stringify(this.user));
+    // AJOUT : synchronisation authToken (par sécurité)
+    localStorage.setItem('authToken', this.token);
 
     return this.user!;
   }
@@ -161,6 +165,8 @@ export class KeycloakService {
     this.refreshToken = tr.refresh_token;
     localStorage.setItem('keycloak_token', this.token);
     localStorage.setItem('keycloak_refresh_token', this.refreshToken);
+    // AJOUT : synchronisation authToken
+    localStorage.setItem('authToken', this.token);
     return this.token;
   }
 
