@@ -38,11 +38,11 @@ export default function HeroSection() {
                             />
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <Button size="lg" className="btn-primary text-lg px-8 py-4">
+                            <Button size="lg" className="btn-primary text-base px-6 py-3">
                                 Explorer les livres
-                                <ArrowRight className="ml-2 h-5 w-5 icon-accent" />
+                                <ArrowRight className="ml-2 h-4 w-4 icon-accent" />
                             </Button>
-                            <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+                            <Button variant="outline" size="lg" className="text-base px-6 py-3">
                                 Découvrir les auteurs
                             </Button>
                         </div>
@@ -63,17 +63,17 @@ export default function HeroSection() {
                         </div>
                     </div>
                     {/* Image/Illustration */}
-                    <div className="relative">
-                        <div className="bg-gradient-to-br from-[#27548A]/20 to-[#DDA853]/20 rounded-2xl p-8 h-96 flex items-center justify-center">
+                    <div className="relative ml-8">
+                        <div className="bg-gradient-to-br from-[#27548A]/20 to-[#DDA853]/20 rounded-2xl p-6 h-80 flex items-center justify-center">
                             <div className="text-center">
-                                <BookOpen className="h-24 w-24 icon-accent mx-auto mb-4" />
+                                <BookOpen className="h-20 w-20 icon-accent mx-auto mb-4" />
                                 <p className="text-lg font-medium title-navy">Votre prochaine lecture vous attend</p>
                                 <p className="text-sea">Découvrez des histoires uniques</p>
                             </div>
                         </div>
                         {/* Éléments décoratifs */}
-                        <div className="absolute -top-4 -right-4 w-20 h-20 accent-summer rounded-full opacity-30"></div>
-                        <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#27548A]/20 rounded-full"></div>
+                        <div className="absolute -top-3 -right-3 w-16 h-16 accent-summer rounded-full opacity-30"></div>
+                        <div className="absolute -bottom-3 -left-3 w-12 h-12 bg-[#27548A]/20 rounded-full"></div>
                     </div>
                 </div>
             </div>
