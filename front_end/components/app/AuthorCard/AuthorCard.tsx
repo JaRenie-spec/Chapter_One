@@ -20,34 +20,34 @@ export default function AuthorCard({ id, pseudo, bio, avatar, booksCount }: Auth
         : '??'
 
     return (
-        <Card className="hover:shadow-lg transition-shadow duration-200">
+        <Card className="rounded-xl shadow-soft border-light bg-card-modern p-lg hover-elevate transition-soft">
             <CardHeader className="text-center pb-4">
                 <div className="flex justify-center mb-4">
-                    <Avatar className="h-20 w-20">
+                    <Avatar className="h-20 w-20 rounded-full shadow-soft">
                         <AvatarImage src={avatar} alt={pseudo} />
                         <AvatarFallback className="text-lg font-semibold">
                             {initials}
                         </AvatarFallback>
                     </Avatar>
                 </div>
-                <h3 className="text-xl font-semibold">{pseudo}</h3>
+                <h3 className="text-xl font-semibold title-navy">{pseudo}</h3>
                 {bio && (
-                    <p className="text-sm text-muted-foreground line-clamp-3">
+                    <p className="text-sm text-sea line-clamp-3">
                         {bio}
                     </p>
                 )}
             </CardHeader>
 
             <CardContent className="pb-4">
-                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                    <BookOpen className="h-4 w-4" />
+                <div className="flex items-center justify-center gap-2 text-sm text-sea">
+                    <BookOpen className="h-4 w-4 icon-accent" />
                     <span>{booksCount} livre{booksCount !== 1 ? 's' : ''}</span>
                 </div>
             </CardContent>
 
             <CardFooter className="pt-0">
                 <div className="flex gap-2 w-full">
-                    <Button asChild variant="outline" className="flex-1">
+                    <Button asChild variant="outline" className="flex-1 btn-primary">
                         <Link href={`/authors/${id}`}>
                             <User className="h-4 w-4 mr-2" />
                             Profil

@@ -51,43 +51,41 @@ export default function ReviewCard({
   }
 
   return (
-    <Card className="hover:shadow-md transition-shadow duration-200">
+    <Card className="rounded-xl shadow-soft border-light bg-card-modern p-lg hover-elevate transition-soft">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10">
+            <Avatar className="h-10 w-10 rounded-full shadow-soft">
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback className="text-sm font-medium">
                 {userInitials}
               </AvatarFallback>
             </Avatar>
             <div>
-              <h4 className="font-semibold text-sm">{user.name}</h4>
+              <h4 className="font-semibold text-sm title-navy">{user.name}</h4>
               <div className="flex items-center gap-1 mt-1">
                 {renderStars(rating)}
-                <span className="text-xs text-muted-foreground ml-1">
+                <span className="text-xs text-sea ml-1">
                   ({rating}/5)
                 </span>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Calendar className="h-3 w-3" />
+          <div className="flex items-center gap-1 text-xs text-sea">
+            <Calendar className="h-3 w-3 icon-accent" />
             <span>{formattedDate}</span>
           </div>
         </div>
       </CardHeader>
-
       <CardContent className="pt-0">
-        <p className="text-sm text-muted-foreground mb-3">
+        <p className="text-sm text-sea mb-3">
           {comment}
         </p>
-
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-xs rounded-full accent-summer">
             Avis sur
           </Badge>
-          <span className="text-sm font-medium">{book.title}</span>
+          <span className="text-sm font-medium title-navy">{book.title}</span>
         </div>
       </CardContent>
     </Card>

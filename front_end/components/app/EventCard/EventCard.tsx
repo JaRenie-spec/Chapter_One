@@ -20,43 +20,43 @@ export default function EventCard({ event }: EventCardProps) {
 
     return (
         <Link href={`/events/${event.id}`} className="block">
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="rounded-xl shadow-soft border-light bg-card-modern p-lg hover-elevate transition-soft">
                 <CardHeader>
                     <div className="flex justify-between items-center">
                         <div>
-                            <h3 className="font-semibold text-lg line-clamp-2">{event.title}</h3>
-                            <div className="text-xs text-muted-foreground mt-1">par {authorName}</div>
+                            <h3 className="font-semibold text-lg line-clamp-2 title-navy">{event.title}</h3>
+                            <div className="text-xs text-sea mt-1">par {authorName}</div>
                         </div>
                         {event.isOnline && (
-                            <Badge variant="secondary" className="text-xs">En ligne</Badge>
+                            <Badge variant="secondary" className="text-xs rounded-full accent-summer">En ligne</Badge>
                         )}
                     </div>
                 </CardHeader>
 
                 <CardContent className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-primary" />
+                        <Calendar className="h-4 w-4 icon-accent" />
                         <span>{formatted}</span>
                     </div>
                     {event.location && (
                         <div className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4 text-primary" />
+                            <MapPin className="h-4 w-4 icon-accent" />
                             <span>{event.location}</span>
                         </div>
                     )}
                     {event.maxParticipants && (
                         <div className="flex items-center gap-2">
-                            <Users className="h-4 w-4 text-primary" />
+                            <Users className="h-4 w-4 icon-accent" />
                             <span>{event.maxParticipants} participants max</span>
                         </div>
                     )}
                     {event.description && (
-                        <div className="text-xs text-muted-foreground line-clamp-3 mt-2">{event.description}</div>
+                        <div className="text-xs text-sea line-clamp-3 mt-2">{event.description}</div>
                     )}
                 </CardContent>
 
                 <CardFooter className="pt-0">
-                    <Badge variant="outline" className="w-full text-center">Détails →</Badge>
+                    <Badge variant="outline" className="w-full text-center rounded-full accent-summer">Détails →</Badge>
                 </CardFooter>
             </Card>
         </Link>

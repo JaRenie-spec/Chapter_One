@@ -11,6 +11,7 @@ type BookWithAuthor = {
   price: number;
   rating: number | null;
   fileUrl: string;
+  coverImage: string | null;
   author: {
     pseudo: string | null;
     firstName: string;
@@ -66,10 +67,10 @@ export const create: RequestHandler = async (req, res) => {
     ? req.body.authorId     // admin peut choisir
     : sub;                  // author forcé à lui-même
 
-  const { title, isbn, price, description, rating, fileUrl } = req.body;
+  const { title, isbn, price, description, rating, fileUrl, coverImage } = req.body;
   try {
     const newBook = await prisma.book.create({
-      data: { title, isbn, price, description, rating, fileUrl, authorId: finalAuthorId }
+      data: { title, isbn, price, description, rating, fileUrl, coverImage, authorId: finalAuthorId }
     });
     res.status(201).json(newBook);
   } catch (err: any) {
@@ -117,12 +118,14 @@ export const findByPublicInfo: RequestHandler = async (req, res) => {
       return;
     }
 
-    const publicBooks = (books as BookWithAuthor[]).map((book) => ({
+    const publicBooks = (books as any[]).map((book) => ({
+      id: (book as any).id, // Ajout de l'ID UUID
       title: book.title,
       isbn: book.isbn,
       price: book.price,
       rating: book.rating,
       fileUrl: book.fileUrl,
+      coverImage: book.coverImage,
       author: {
         pseudo: book.author?.pseudo,
         firstName: book.author?.firstName,
@@ -169,11 +172,11 @@ export const update: RequestHandler = async (req, res) => {
     ? req.body.authorId ?? book.authorId  // admin peut changer ou conserver
     : sub;                                 // author reste lui-même
 
-  const { title, isbn, price, description, rating, fileUrl } = req.body;
+  const { title, isbn, price, description, rating, fileUrl, coverImage } = req.body;
   try {
     const updated = await prisma.book.update({
       where: { id },
-      data: { title, isbn, price, description, rating, fileUrl, authorId: finalAuthorId }
+      data: { title, isbn, price, description, rating, fileUrl, coverImage, authorId: finalAuthorId }
     });
     res.json(updated);
   } catch (err: any) {

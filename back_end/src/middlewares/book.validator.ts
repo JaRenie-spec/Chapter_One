@@ -10,6 +10,7 @@ export const bookSchema = z.object({
   description: z.string().optional(),
   rating: z.number().min(0, 'Note minimale = 0').max(5, 'Note maximale = 5').optional(),
   fileUrl: z.string().url('L’URL du fichier est invalide'),
+  coverImage: z.string().url('L’URL de l’image de couverture est invalide').optional(),
   authorId: z.string().uuid('L’identifiant de l’auteur est invalide'),
 });
 

@@ -29,6 +29,7 @@ export default function EditBookPage() {
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
     const [fileUrl, setFileUrl] = useState('')
+    const [coverImage, setCoverImage] = useState('')
 
     useEffect(() => {
         if (id) execute(id)
@@ -41,6 +42,7 @@ export default function EditBookPage() {
             setPrice(book.price.toString())
             setDescription(book.description || '')
             setFileUrl((book as any).fileUrl || '')
+            setCoverImage(book.coverImage || '')
         }
     }, [book])
 
@@ -59,6 +61,7 @@ export default function EditBookPage() {
             price: parseFloat(price),
             description,
             fileUrl: fileUrl,
+            coverImage: coverImage,
             authorId: user.sub,
         }
 
@@ -124,8 +127,12 @@ export default function EditBookPage() {
                                 <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} />
                             </div>
                             <div>
-                                <Label htmlFor="fileUrl">URL de la couverture</Label>
+                                <Label htmlFor="fileUrl">URL du livre</Label>
                                 <Input id="fileUrl" type="url" value={fileUrl} onChange={e => setFileUrl(e.target.value)} required />
+                            </div>
+                            <div>
+                                <Label htmlFor="coverImage">URL de la couverture</Label>
+                                <Input id="coverImage" type="url" value={coverImage} onChange={e => setCoverImage(e.target.value)} required />
                             </div>
                             <div className="flex justify-end space-x-2">
                                 <Button variant="outline" onClick={() => router.back()} type="button">

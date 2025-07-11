@@ -18,7 +18,7 @@ export default function Home() {
             <main className="flex flex-1 flex-col">
                 <HeroSection />
 
-                <section className="py-16 px-6" style={{ background: 'var(--card)' }}>
+                <section className="py-16 px-6" style={{ background: 'var(--summer-extra-soft)', borderBottom: '1px solid #E0E0C0' }}>
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
@@ -34,7 +34,7 @@ export default function Home() {
 
                 <CategoryGrid />
 
-                <section className="py-16 px-6" style={{ background: 'var(--card)' }}>
+                <section className="py-16 px-6" style={{ background: 'var(--background-contrast)', borderBottom: '1px solid #E0E0C0' }}>
                     <div className="max-w-6xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-12">
                             <div>
@@ -64,7 +64,7 @@ export default function Home() {
                     </div>
                 </section>
 
-                <section className="py-16 px-6" style={{ background: 'var(--background)' }}>
+                <section className="py-16 px-6" style={{ background: 'var(--summer-extra-soft)', borderBottom: '1px solid #E0E0C0' }}>
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
@@ -78,7 +78,7 @@ export default function Home() {
                     </div>
                 </section>
 
-                <section className="py-16 px-6" style={{ background: 'var(--card)' }}>
+                <section className="py-16 px-6" style={{ background: 'var(--background-contrast)' }}>
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
                             Prêt à découvrir de nouveaux auteurs ?
@@ -87,10 +87,16 @@ export default function Home() {
                             Rejoignez notre communauté de lecteurs et soutenez les auteurs indépendants
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="px-8 py-3 rounded-lg font-medium transition-colors" style={{ background: 'var(--primary)', color: 'var(--background)' }}>
+                            <button
+                                className="px-8 py-3 rounded-xl font-semibold shadow-soft transition-soft hover-elevate bg-primary text-primary-foreground text-base"
+                                style={{ background: 'var(--primary)', color: 'var(--primary-foreground)' }}
+                            >
                                 Commencer à explorer
                             </button>
-                            <button className="border px-8 py-3 rounded-lg font-medium transition-colors" style={{ borderColor: 'var(--primary)', color: 'var(--primary)', background: 'var(--background)' }}>
+                            <button
+                                className="px-8 py-3 rounded-xl font-semibold shadow-soft transition-soft hover-elevate border border-primary text-primary bg-background text-base"
+                                style={{ borderColor: 'var(--primary)', color: 'var(--primary)', background: 'var(--background)' }}
+                            >
                                 En savoir plus
                             </button>
                         </div>

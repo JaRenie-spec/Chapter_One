@@ -7,7 +7,7 @@ import { Footer } from '@/components/app/Footer/Footer'
 export default function CreateBookPage() {
     return (
         <div className="flex flex-col min-h-screen">
-            <header className="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b h-16 flex items-center">
+            <header className="fixed top-0 left-0 w-full z-50 bg-primary border-b-2 border-[#ECECD9] h-16 flex items-center px-8 shadow-soft">
                 <Navbar />
             </header>
             <main className="flex flex-1 flex-col pt-16">

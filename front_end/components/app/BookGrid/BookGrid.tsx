@@ -72,6 +72,7 @@ export default function BookGrid({ books, loading, error }: BookGridProps) {
                     author={book.author?.pseudo ?? 'Auteur inconnu'}
                     rating={book.rating || 0}
                     price={book.price}
+                    coverImage={book.coverImage}
                     coverColor={getRandomCoverColor()}
                     onAddToCart={() => handleAddToCart(book)}
                     onFavorite={() => handleFavorite(book.id)}

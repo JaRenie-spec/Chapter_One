@@ -13,7 +13,14 @@ import swaggerUi from 'swagger-ui-express';
 dotenv.config();
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://votre-domaine.com']
+    : ['http://localhost:3001', 'http://localhost:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+}));
 app.use(express.json());
 
 // ⚙️ Swagger UI (facultatif)

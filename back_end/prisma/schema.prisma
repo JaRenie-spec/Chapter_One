@@ -132,7 +132,8 @@ model Book {
   price            Float
   description      String?
   rating           Float?
-  fileUrl          String
+  fileUrl          String?
+  coverImage       String?
 
   authorId         String
   author           Author       @relation(fields: [authorId], references: [id])
