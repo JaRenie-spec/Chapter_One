@@ -40,9 +40,9 @@ export function SearchBar({ placeholder = "Rechercher des livres, auteurs...", o
 
     return (
         <div className={`relative ${className}`}>
-            <div className="flex items-center">
-                <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="flex items-center gap-2">
+                <div className="relative flex-1 min-w-[440px] max-w-2xl">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-sea opacity-70" />
                     <Input
                         type="text"
                         placeholder={placeholder}
@@ -50,14 +50,14 @@ export function SearchBar({ placeholder = "Rechercher des livres, auteurs...", o
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyPress={handleKeyPress}
                         onFocus={() => setIsExpanded(true)}
-                        className="pl-10 pr-10"
+                        className="pl-14 pr-14 py-2 rounded-full bg-[#F8F8ED] shadow-soft border border-[#D9D9C8] focus:border-primary focus:ring-2 focus:ring-primary/20 text-lg transition-soft h-11"
                     />
                     {query && (
                         <Button
                             variant="ghost"
                             size="sm"
                             onClick={clearSearch}
-                            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 h-7 w-7 p-0 rounded-full hover:bg-summer-soft transition-soft"
                         >
                             <X className="h-4 w-4" />
                         </Button>
@@ -65,7 +65,7 @@ export function SearchBar({ placeholder = "Rechercher des livres, auteurs...", o
                 </div>
                 <Button
                     onClick={handleSearch}
-                    className="ml-2"
+                    className="rounded-full px-10 py-2 font-semibold shadow-soft bg-primary text-primary-foreground text-lg transition-soft hover-elevate h-11 min-w-[180px]"
                     disabled={!query.trim()}
                 >
                     Rechercher
@@ -74,29 +74,27 @@ export function SearchBar({ placeholder = "Rechercher des livres, auteurs...", o
 
             {/* Suggestions de recherche (optionnel) */}
             {isExpanded && query && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50">
-                    <div className="p-2">
-                        <div className="text-sm text-muted-foreground mb-2">Suggestions :</div>
-                        <div className="space-y-1">
-                            <button
-                                className="w-full text-left px-2 py-1 hover:bg-muted rounded text-sm"
-                                onClick={() => setQuery('romans')}
-                            >
-                                Romans
-                            </button>
-                            <button
-                                className="w-full text-left px-2 py-1 hover:bg-muted rounded text-sm"
-                                onClick={() => setQuery('science-fiction')}
-                            >
-                                Science-fiction
-                            </button>
-                            <button
-                                className="w-full text-left px-2 py-1 hover:bg-muted rounded text-sm"
-                                onClick={() => setQuery('fantasy')}
-                            >
-                                Fantasy
-                            </button>
-                        </div>
+                <div className="absolute top-full left-0 right-0 mt-2 bg-[#FCF4E5] border border-[#ECECD9] rounded-xl shadow-soft z-50 p-4">
+                    <div className="text-base text-sea font-semibold mb-3 text-center">Suggestions :</div>
+                    <div className="space-y-2">
+                        <button
+                            className="w-full text-left px-4 py-2 rounded-xl text-base text-sea hover:bg-summer-soft transition-soft"
+                            onClick={() => setQuery('romans')}
+                        >
+                            Romans
+                        </button>
+                        <button
+                            className="w-full text-left px-4 py-2 rounded-xl text-base text-sea hover:bg-summer-soft transition-soft"
+                            onClick={() => setQuery('science-fiction')}
+                        >
+                            Science-fiction
+                        </button>
+                        <button
+                            className="w-full text-left px-4 py-2 rounded-xl text-base text-sea hover:bg-summer-soft transition-soft"
+                            onClick={() => setQuery('fantasy')}
+                        >
+                            Fantasy
+                        </button>
                     </div>
                 </div>
             )}

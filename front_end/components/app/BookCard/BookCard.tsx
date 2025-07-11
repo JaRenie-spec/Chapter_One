@@ -29,52 +29,52 @@ export default function BookCard({
 }: BookCardProps) {
     return (
         <div
-            className="bg-card rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+            className="bg-card-modern rounded-xl shadow-soft border-light p-md hover-elevate transition-soft cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
             tabIndex={0}
             role="button"
             onClick={onClickCard}
             onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onClickCard?.() }}
         >
-            <div className={`aspect-[3/4] rounded-t-lg overflow-hidden`}>
+            <div className="aspect-[3/4] rounded-xl overflow-hidden mb-2">
                 {coverImage ? (
                     <Image
                         src={coverImage}
                         alt={title}
                         width={300}
                         height={400}
-                        className="object-cover w-full h-full"
+                        className="object-cover w-full h-full rounded-xl"
                     />
                 ) : (
-                    <div className={`bg-gradient-to-br ${coverColor} flex items-center justify-center w-full h-full`}>
-                        <BookOpen className="h-16 w-16 text-primary/60" />
+                    <div className={`bg-gradient-to-br ${coverColor} flex items-center justify-center w-full h-full rounded-xl`}>
+                        <BookOpen className="h-16 w-16 icon-accent" />
                     </div>
                 )}
             </div>
-            <div className="p-4">
+            <div className="p-0">
                 <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-lg line-clamp-2">{title}</h3>
+                    <h3 className="font-semibold text-lg line-clamp-2 title-navy">{title}</h3>
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-muted-foreground"
+                        className="icon-accent"
                         onClick={e => { e.stopPropagation(); onFavorite?.() }}
                     >
-                        <Heart className="h-4 w-4" />
+                        <Heart className="h-4 w-4" style={{ color: '#27548A' }} />
                     </Button>
                 </div>
-                <p className="text-sm text-muted-foreground mb-3">{author}</p>
+                <p className="text-sm text-sea mb-3">{author}</p>
                 <div className="flex items-center gap-1 mb-3">
                     {[...Array(5)].map((_, i) => (
                         <Star
                             key={i}
-                            className={`h-4 w-4 ${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                            className={`h-4 w-4 ${i < rating ? 'icon-accent fill-current' : 'text-gray-300'}`}
                         />
                     ))}
-                    <span className="text-sm text-muted-foreground ml-1">({rating.toFixed(1)})</span>
+                    <span className="text-sm text-sea ml-1">({rating.toFixed(1)})</span>
                 </div>
                 <div className="flex items-center justify-between">
-                    <span className="font-bold text-lg">€{price.toFixed(2)}</span>
-                    <Button size="sm" onClick={e => { e.stopPropagation(); onAddToCart?.() }}>
+                    <span className="font-bold text-lg title-navy">€{price.toFixed(2)}</span>
+                    <Button size="sm" className="btn-primary" onClick={e => { e.stopPropagation(); onAddToCart?.() }}>
                         <ShoppingCart className="h-4 w-4 mr-1" />
                         Ajouter
                     </Button>

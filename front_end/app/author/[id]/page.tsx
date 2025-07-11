@@ -90,7 +90,7 @@ export default function AuthorPublicProfilePage() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <header className="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b h-16 flex items-center">
+            <header className="fixed top-0 left-0 w-full z-50 bg-primary border-b-2 border-[#ECECD9] h-16 flex items-center px-8 shadow-soft">
                 <Navbar />
             </header>
             <main className="flex flex-1 flex-col pt-16">
@@ -150,9 +150,9 @@ export default function AuthorPublicProfilePage() {
                                                     <Link href={`/books/${book.id}/edit`}>
                                                         <Button size="sm" variant="outline">Modifier</Button>
                                                     </Link>
-                                                    <Button size="sm" variant="destructive" onClick={() => handleDeleteBook(book.id)} disabled={deletingBookId === book.id}>
+                                                    <button type="button" className="px-4 py-2 rounded-xl font-semibold shadow-soft border border-[#DDA853] bg-[#DDA853] text-[#183B4E] hover:bg-summer-soft hover:text-sea transition-soft text-sm" onClick={() => handleDeleteBook(book.id)} disabled={deletingBookId === book.id}>
                                                         {deletingBookId === book.id ? 'Suppression…' : 'Supprimer'}
-                                                    </Button>
+                                                    </button>
                                                 </>
                                             )}
                                         </div>
@@ -188,9 +188,9 @@ export default function AuthorPublicProfilePage() {
                                             {isOwnerOrAdmin && (
                                                 <>
                                                     <Link href={`/events/${event.id}/edit`}><Button size="sm" variant="outline">Modifier</Button></Link>
-                                                    <Button size="sm" variant="destructive" onClick={() => handleDeleteEvent(event.id)} disabled={deletingEventId === event.id}>
+                                                    <button type="button" className="px-4 py-2 rounded-xl font-semibold shadow-soft border border-[#DDA853] bg-[#DDA853] text-[#183B4E] hover:bg-summer-soft hover:text-sea transition-soft text-sm" onClick={() => handleDeleteEvent(event.id)} disabled={deletingEventId === event.id}>
                                                         {deletingEventId === event.id ? 'Suppression…' : 'Supprimer'}
-                                                    </Button>
+                                                    </button>
                                                 </>
                                             )}
                                         </div>
@@ -217,9 +217,9 @@ export default function AuthorPublicProfilePage() {
                                     Modifier
                                 </Button>
                             </Link>
-                            <Button variant="destructive" size="sm" onClick={handleDelete}>
+                            <button type="button" className="px-4 py-2 rounded-xl font-semibold shadow-soft border border-[#DDA853] bg-[#DDA853] text-[#183B4E] hover:bg-summer-soft hover:text-sea transition-soft text-sm" onClick={handleDelete}>
                                 Supprimer
-                            </Button>
+                            </button>
                         </div>
                     )}
                 </div>

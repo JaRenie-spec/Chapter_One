@@ -74,10 +74,10 @@ export function CategoryGrid() {
                             <Link
                                 key={category.id}
                                 href={`/category/${category.id}`}
-                                className="group block p-6 bg-background border rounded-lg hover:shadow-lg transition-all duration-200 hover:border-primary/20"
+                                className="group block p-6 bg-background border border-[#ECECD9] rounded-xl shadow-soft hover:shadow-lg transition-all duration-200 hover:border-primary/30"
                             >
                                 <div className="flex items-start justify-between mb-4">
-                                    <div className={`p-3 rounded-lg ${category.color}`}>
+                                    <div className={`p-3 rounded-full shadow-soft ${category.color} flex items-center justify-center`} style={{ minWidth: 40, minHeight: 40 }}>
                                         <IconComponent className="h-6 w-6" />
                                     </div>
                                     <span className="text-sm text-muted-foreground">
@@ -93,9 +93,9 @@ export function CategoryGrid() {
                                     {category.description}
                                 </p>
 
-                                <div className="flex items-center text-sm text-primary font-medium">
+                                <div className="flex items-center text-sm font-medium px-4 py-2 rounded-xl border border-primary text-primary bg-transparent transition-colors hover:bg-primary hover:text-primary-foreground shadow-soft group/button">
                                     Explorer
-                                    <svg className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg className="ml-2 h-4 w-4 transform group-hover/button:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
                                 </div>
@@ -107,7 +107,7 @@ export function CategoryGrid() {
                 <div className="text-center mt-12">
                     <Link
                         href="/categories"
-                        className="inline-flex items-center px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors"
+                        className="inline-flex items-center px-6 py-3 border border-primary text-primary rounded-xl hover:bg-primary hover:text-primary-foreground transition-colors shadow-soft"
                     >
                         Voir toutes les catégories
                         <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

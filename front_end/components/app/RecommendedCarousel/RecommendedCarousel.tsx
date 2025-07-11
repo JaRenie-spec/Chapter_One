@@ -35,7 +35,7 @@ export default function RecommendedCarousel() {
             <CarouselContent className="space-x-4">
                 {recommendations.map((rec, i) => (
                     <CarouselItem key={i} className="basis-1/2 md:basis-1/4">
-                        <div className="bg-card p-4 rounded shadow text-center" style={{ background: 'var(--background)', color: 'var(--primary)' }}>
+                        <div className="p-4 rounded-xl shadow-soft text-center" style={{ background: 'var(--background)', color: 'var(--sea)' }}>
                             <h3 className="font-semibold">{rec.title}</h3>
                             <p className="text-muted-foreground text-sm">{rec.author}</p>
                         </div>
