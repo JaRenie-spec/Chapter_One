@@ -98,14 +98,19 @@ export default function AuthorPublicProfilePage() {
                     <div className="max-w-3xl mx-auto">
                         <Card>
                             <CardHeader className="flex flex-row items-center gap-6">
-                                <Avatar className="h-24 w-24">
-                                    <AvatarImage src={author.link} alt={author.pseudo} />
-                                    <AvatarFallback>{authorInitials}</AvatarFallback>
-                                </Avatar>
+                                <div className="flex items-center justify-center w-28 h-28 bg-[#F3F3E0] rounded-full shadow-soft">
+                                    <Avatar className="h-24 w-24 rounded-full border-4 border-white shadow-soft">
+                                        <AvatarImage src={author.link} alt={author.pseudo} />
+                                        <AvatarFallback>{authorInitials}</AvatarFallback>
+                                    </Avatar>
+                                </div>
                                 <div>
                                     <CardTitle className="text-3xl font-bold">{author.pseudo}</CardTitle>
-                                    <p className="text-muted-foreground">{author.firstName} {author.lastName}</p>
-                                    <p className="mt-2">{author.bio}</p>
+                                    <p className="text-muted-foreground mb-2">{author.firstName} {author.lastName}</p>
+                                    <div className="bg-[#F3F3E0] rounded-xl shadow-soft border border-[#ECECD9] px-6 py-4 max-w-md mt-2">
+                                        <span className="block text-base text-sea font-medium mb-1">Biographie</span>
+                                        <p className="text-base text-foreground leading-relaxed">{author.bio || <span className='text-muted-foreground'>Aucune biographie renseignée.</span>}</p>
+                                    </div>
                                 </div>
                             </CardHeader>
                         </Card>

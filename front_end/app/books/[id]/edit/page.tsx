@@ -71,7 +71,7 @@ export default function EditBookPage() {
 
     if (loading) return (
         <div className="flex flex-col min-h-screen">
-            <header className="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b h-16 flex items-center">
+            <header className="fixed top-0 left-0 w-full z-50 bg-primary border-b-2 border-[#ECECD9] h-16 flex items-center px-8 shadow-soft">
                 <Navbar />
             </header>
             <main className="flex flex-1 flex-col pt-16">
@@ -82,9 +82,10 @@ export default function EditBookPage() {
             <Footer />
         </div>
     )
+
     if (error) return (
         <div className="flex flex-col min-h-screen">
-            <header className="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b h-16 flex items-center">
+            <header className="fixed top-0 left-0 w-full z-50 bg-primary border-b-2 border-[#ECECD9] h-16 flex items-center px-8 shadow-soft">
                 <Navbar />
             </header>
             <main className="flex flex-1 flex-col pt-16">
@@ -101,44 +102,93 @@ export default function EditBookPage() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <header className="fixed top-0 left-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b h-16 flex items-center">
+            <header className="fixed top-0 left-0 w-full z-50 bg-primary border-b-2 border-[#ECECD9] h-16 flex items-center px-8 shadow-soft">
                 <Navbar />
             </header>
             <main className="flex flex-1 flex-col pt-16">
                 <section className="bg-gradient-to-br from-primary/10 via-secondary/5 to-background px-6 py-12 min-h-[calc(100vh-128px)]">
                     <div className="max-w-xl mx-auto">
-                        <form onSubmit={handleSubmit} className="space-y-6 bg-white rounded shadow p-8">
+                        <form onSubmit={handleSubmit} className="space-y-6 bg-[#FCF4E5] rounded-xl shadow-soft border border-[#ECECD9] p-8">
                             {updateError && <p className="text-red-500">{updateError}</p>}
                             <h1 className="text-2xl font-bold text-center mb-6">Modifier le livre</h1>
                             <div>
                                 <Label htmlFor="title">Titre</Label>
-                                <Input id="title" value={title} onChange={e => setTitle(e.target.value)} required />
+                                <Input
+                                    id="title"
+                                    value={title}
+                                    onChange={e => setTitle(e.target.value)}
+                                    required
+                                    className="rounded-xl shadow-soft border border-[#D9D9C8] focus:border-primary focus:ring-2 focus:ring-primary/20 text-base transition-soft"
+                                />
                             </div>
                             <div>
                                 <Label htmlFor="isbn">ISBN</Label>
-                                <Input id="isbn" value={isbn} onChange={e => setIsbn(e.target.value)} required />
+                                <Input
+                                    id="isbn"
+                                    value={isbn}
+                                    onChange={e => setIsbn(e.target.value)}
+                                    required
+                                    className="rounded-xl shadow-soft border border-[#D9D9C8] focus:border-primary focus:ring-2 focus:ring-primary/20 text-base transition-soft"
+                                />
                             </div>
                             <div>
                                 <Label htmlFor="price">Prix (€)</Label>
-                                <Input id="price" type="number" step="0.01" value={price} onChange={e => setPrice(e.target.value)} required />
+                                <Input
+                                    id="price"
+                                    type="number"
+                                    step="0.01"
+                                    value={price}
+                                    onChange={e => setPrice(e.target.value)}
+                                    required
+                                    className="rounded-xl shadow-soft border border-[#D9D9C8] focus:border-primary focus:ring-2 focus:ring-primary/20 text-base transition-soft"
+                                />
                             </div>
                             <div>
                                 <Label htmlFor="description">Description</Label>
-                                <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} />
+                                <Textarea
+                                    id="description"
+                                    value={description}
+                                    onChange={e => setDescription(e.target.value)}
+                                    className="min-h-32 rounded-xl shadow-soft border border-[#D9D9C8] focus:border-primary focus:ring-2 focus:ring-primary/20 text-base transition-soft resize-none"
+                                    placeholder="Décrivez votre livre en détail..."
+                                />
                             </div>
                             <div>
                                 <Label htmlFor="fileUrl">URL du livre</Label>
-                                <Input id="fileUrl" type="url" value={fileUrl} onChange={e => setFileUrl(e.target.value)} required />
+                                <Input
+                                    id="fileUrl"
+                                    type="url"
+                                    value={fileUrl}
+                                    onChange={e => setFileUrl(e.target.value)}
+                                    required
+                                    className="rounded-xl shadow-soft border border-[#D9D9C8] focus:border-primary focus:ring-2 focus:ring-primary/20 text-base transition-soft"
+                                />
                             </div>
                             <div>
                                 <Label htmlFor="coverImage">URL de la couverture</Label>
-                                <Input id="coverImage" type="url" value={coverImage} onChange={e => setCoverImage(e.target.value)} required />
+                                <Input
+                                    id="coverImage"
+                                    type="url"
+                                    value={coverImage}
+                                    onChange={e => setCoverImage(e.target.value)}
+                                    required
+                                    className="rounded-xl shadow-soft border border-[#D9D9C8] focus:border-primary focus:ring-2 focus:ring-primary/20 text-base transition-soft"
+                                />
                             </div>
-                            <div className="flex justify-end space-x-2">
-                                <Button variant="outline" onClick={() => router.back()} type="button">
+                            <div className="flex justify-end gap-4">
+                                <Button
+                                    variant="outline"
+                                    onClick={() => router.back()}
+                                    type="button"
+                                    className="rounded-xl font-semibold text-base shadow-soft transition-soft hover-elevate"
+                                >
                                     Annuler
                                 </Button>
-                                <Button type="submit" disabled={updating}>
+                                <Button
+                                    type="submit"
+                                    disabled={updating}
+                                    className="rounded-xl font-semibold text-base shadow-soft transition-soft hover-elevate"
+                                >
                                     {updating ? 'Enregistrement…' : 'Enregistrer'}
                                 </Button>
                             </div>
