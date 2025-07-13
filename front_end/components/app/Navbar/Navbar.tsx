@@ -161,7 +161,7 @@ export function Navbar() {
                                 Mon Profil
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                                <Link href="	http://localhost:8080/realms/ebook-store/account/" className="flex items-center rounded-full font-semibold text-base border border-primary text-primary bg-transparent mb-2 transition-soft hover:bg-summer hover:text-sea" style={{ gap: '0.75rem' }}>
+                                <Link href="	http://localhost:8080/realms/Chapter_One/account/" className="flex items-center rounded-full font-semibold text-base border border-primary text-primary bg-transparent mb-2 transition-soft hover:bg-summer hover:text-sea" style={{ gap: '0.75rem' }}>
                                     <Settings className="h-5 w-5" style={{ color: 'var(--sea)' }} />
                                     Paramètres du compte
                                 </Link>

@@ -1,0 +1,51 @@
+:root {
+  --kc-primary-color: #27548A;
+  --kc-secondary-color: #183B4E;
+  --kc-tertiary-color: #DDA853;
+  --kc-background-color: #F3F3E0;
+}
+
+body {
+  background-color: var(--kc-background-color);
+  font-family: sans-serif;
+}
+
+/* En-tête de page */
+#kc-page-title {
+  background-color: var(--kc-primary-color);
+  color: white;
+  padding: 1rem;
+}
+
+/* Contenu principal */
+.kc-account-content {
+  background-color: white;
+  margin: 2rem auto;
+  max-width: 800px;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Titres de section */
+.kc-form-group > label {
+  color: var(--kc-secondary-color);
+}
+
+/* Champs de saisie */
+.kc-form-control {
+  border: 1px solid var(--kc-secondary-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+/* Bouton primaire */
+.kc-button {
+  background-color: var(--kc-tertiary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
