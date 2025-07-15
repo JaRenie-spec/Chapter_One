@@ -1,8 +1,9 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { ArrowRight, BookOpen, Users, Star } from 'lucide-react'
+import { ArrowRight, Star } from 'lucide-react'
 import { SearchBar } from '@/components/app/SearchBar/SearchBar'
+import Image from "next/image"
 import Link from 'next/link'
 
 export default function HeroSection() {
@@ -62,13 +63,19 @@ export default function HeroSection() {
                             </div>
                         </div>
                     </div>
+
                     {/* Image/Illustration */}
                     <div className="relative ml-8">
-                        <div className="bg-gradient-to-br from-[#27548A]/20 to-[#DDA853]/20 rounded-2xl p-6 h-80 flex items-center justify-center">
+                        <div className="bg-gradient-to-br from-[#27548A]/20 to-[#DDA853]/20 rounded-2xl p-6 h-80
+                         flex items-center justify-center">
                             <div className="text-center">
-                                <BookOpen className="h-20 w-20 icon-accent mx-auto mb-4" />
-                                <p className="text-lg font-medium title-navy">Votre prochaine lecture vous attend</p>
-                                <p className="text-sea">Découvrez des histoires uniques</p>
+                                <Image
+                                    src="/Chapter_one.png" // Chemin depuis public
+                                    alt="Couverture de livre"
+                                    width={800}
+                                    height={800}
+                                    className="mx-auto rounded-xl"
+                                />
                             </div>
                         </div>
                         {/* Éléments décoratifs */}
@@ -80,5 +87,3 @@ export default function HeroSection() {
         </section>
     )
 }
-// This HeroSection component serves as the landing section of the application, providing a brief introduction and a call to action for users to get started. It uses Tailwind CSS for styling and includes a button that can be linked to further actions or pages.
-// The section is designed to be visually appealing with a gradient background and centered text, making it
