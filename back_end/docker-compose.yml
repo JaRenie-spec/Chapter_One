@@ -29,6 +29,8 @@ services:
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
     ports:
       - "8080:8080"
+    volumes:
+      - ./keycloak_theme/mytheme:/opt/keycloak/themes/mytheme
     depends_on:
       - postgres
     networks:
