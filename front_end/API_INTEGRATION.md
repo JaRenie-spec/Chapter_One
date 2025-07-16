@@ -27,18 +27,6 @@ Cette documentation explique comment le front-end Next.js communique avec le bac
 
 Créez un fichier `.env.local` dans le dossier `front_end/` :
 
-```env
-# Configuration API Backend
-NEXT_PUBLIC_API_URL=http://localhost:3000/api
-
-# Configuration pour le développement
-NEXT_PUBLIC_ENV=development
-
-# Configuration Keycloak (si nécessaire)
-NEXT_PUBLIC_KEYCLOAK_URL=http://localhost:8080
-NEXT_PUBLIC_KEYCLOAK_REALM=ebook-store
-```
-
 ### 2. Services API
 
 Le fichier `lib/api.ts` contient tous les services pour communiquer avec le back-end :
@@ -225,11 +213,6 @@ test('renders books list', async () => {
 ## Déploiement
 
 ### 1. Variables d'environnement de production
-
-```env
-NEXT_PUBLIC_API_URL=https://api.votre-domaine.com/api
-NEXT_PUBLIC_ENV=production
-```
 
 ### 2. Configuration Docker
 

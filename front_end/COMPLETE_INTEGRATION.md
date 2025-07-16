@@ -166,12 +166,6 @@ Cette documentation détaille toutes les liaisons créées entre le front-end Ne
 ## Configuration
 
 ### 1. Variables d'Environnement (`env.example`)
-```env
-NEXT_PUBLIC_API_URL=http://localhost:3000/api
-NEXT_PUBLIC_ENV=development
-NEXT_PUBLIC_KEYCLOAK_URL=http://localhost:8080
-NEXT_PUBLIC_KEYCLOAK_REALM=ebook-store
-```
 
 ### 2. Configuration Next.js (`next.config.ts`)
 - Variables d'environnement
@@ -268,10 +262,6 @@ NEXT_PUBLIC_KEYCLOAK_REALM=ebook-store
 - Configuration de production
 
 ### 2. Variables de Production
-```env
-NEXT_PUBLIC_API_URL=https://api.votre-domaine.com/api
-NEXT_PUBLIC_ENV=production
-```
 
 ## Prochaines Étapes
 

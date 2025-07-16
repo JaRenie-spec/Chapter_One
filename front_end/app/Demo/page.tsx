@@ -17,7 +17,7 @@ export default function DemoPage() {
                 <section className="w-full py-24 px-6 text-center bg-summer-extra-soft border-b border-muted">
                     <div className="max-w-4xl mx-auto">
                         <Image
-                            src="/Chapter_One.png" // Assurez-vous de placer l'image dans public/
+                            src="/Chapter_one.png" // Assurez-vous de placer l'image dans public/
                             alt="Couverture du projet"
                             width={800}
                             height={400}
