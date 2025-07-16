@@ -5,6 +5,9 @@
   --secondary:  #183B4E;
   --tertiary:   #DDA853;
   --bg:         #F3F3E0;
+  --bg-contrast: #ECECD9;
+  --summer-soft: #F8E7C1;
+  --summer-extra-soft: #FCF4E5;
   font-family: 'Quicksand', sans-serif;
 }
 
@@ -20,90 +23,196 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg);
+  background: var(--bg);
+  font-family: 'Quicksand', sans-serif;
 }
 
 /* === CONTAINER === */
 #kc-container,              /* pour Keycloak 20+ */
 #kc-login {                 /* pour Keycloak <20 */
   width: 100%;
-  max-width: 360px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  overflow: hidden;
+  max-width: 420px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+#kc-container:hover,
+#kc-login:hover {
+  transform: translateY(-3px);
 }
 
 /* === HEADER (nom du realm) === */
 #kc-header {
   background: var(--primary);
   color: #fff;
-  padding: 1rem;
+  padding: 2.5rem 1.5rem;
   text-align: center;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 40px 40px 0 0;
 }
 
 /* === CONTENU DU FORMULAIRE === */
 #kc-content {
-  padding: 2rem;
+  padding: 2.5rem;
+  background: #fff;
+  border-radius: 0 0 40px 40px;
+  box-shadow: 0 8px 40px 0 rgba(24,59,78,0.06);
 }
 
-/* === TITRE “CONNEXION” === */
+/* === TITRE "CONNEXION" === */
 #kc-content > h1,
 #kc-content > h2 {
-  margin: 0 0 1.5rem;
-  font-size: 1.25rem;
+  margin: 0 0 2.5rem;
+  font-size: 2rem;
   color: var(--secondary);
   text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 /* === LABELS & INPUTS ==== */
 #kc-form-login label {
   display: block;
-  font-weight: bold;
+  font-weight: 600;
   color: var(--secondary);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
 }
+
 #kc-form-login input[type="text"],
 #kc-form-login input[type="password"] {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--secondary);
-  border-radius: 6px;
-  margin-bottom: 1.2rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(39,84,138,0.1);
+  border-radius: 20px;
+  margin-bottom: 1.8rem;
   font-size: 1rem;
+  font-family: 'Quicksand', sans-serif;
+  background: rgba(252,244,229,0.5);
+  transition: all 0.3s ease;
+  box-shadow: none;
 }
+
 #kc-form-login input:focus {
   border-color: var(--primary);
   outline: none;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(39,84,138,0.1);
+  transform: none;
 }
 
-/* === BOUTON “SE CONNECTER” === */
+/* === BOUTON TOGGLE MOT DE PASSE === */
+#kc-form-login button[data-password-toggle] {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+#kc-form-login button[data-password-toggle]:hover {
+  background: rgba(39,84,138,0.1);
+  color: var(--primary);
+}
+
+#kc-form-login button[data-password-toggle]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(39,84,138,0.2);
+}
+
+/* === POSITIONNEMENT RELATIF POUR LE CHAMP PASSWORD === */
+#kc-form-login input[type="password"] {
+  position: relative;
+  padding-right: 3.5rem;
+}
+
+/* === BOUTON "SE CONNECTER" === */
 #kc-form-buttons input[type="submit"] {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1.2rem 2rem;
   background: var(--primary);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
+  font-family: 'Quicksand', sans-serif;
+  box-shadow: 0 4px 20px 0 rgba(39,84,138,0.15);
+  letter-spacing: 0.3px;
 }
+
 #kc-form-buttons input[type="submit"]:hover {
-  background: var(--tertiary);
+  background: var(--secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px 0 rgba(39,84,138,0.25);
+}
+
+#kc-form-buttons input[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 20px 0 rgba(39,84,138,0.15);
 }
 
 /* === LIENS BAS DE PAGE === */
 #kc-content .kc-form-options,
 #kc-content .kc-form-options a {
-  display: block;
-  text-align: center;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: var(--primary);
+  display: none;
 }
-#kc-content .kc-form-options a:hover {
-  text-decoration: underline;
+
+/* === MESSAGES D'ERREUR === */
+#kc-form-login .alert {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border: 2px solid #f87171;
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: #dc2626;
+  font-weight: 500;
+  box-shadow: 0 4px 16px 0 rgba(220,38,38,0.1);
+}
+
+/* === MESSAGES DE SUCCÈS === */
+#kc-form-login .alert-success {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 2px solid #4ade80;
+  color: #16a34a;
+  box-shadow: 0 4px 16px 0 rgba(22,163,74,0.1);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+  #kc-container,
+  #kc-login {
+    max-width: 95%;
+    margin: 0 10px;
+  }
+
+  #kc-content {
+    padding: 2rem 1.5rem;
+    border-radius: 0 0 30px 30px;
+  }
+
+  #kc-header {
+    padding: 1.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 30px 30px 0 0;
+  }
 }
