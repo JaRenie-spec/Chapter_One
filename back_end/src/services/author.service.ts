@@ -3,7 +3,7 @@ import { CreateAuthorDTO } from "../types";
 
 const prisma = new PrismaClient();
 
-// 🔹 Créer un nouvel auteur
+// Créer un nouvel auteur
 export const createAuthor = async (data: CreateAuthorDTO) => {
   try {
     return await prisma.author.create({
@@ -24,7 +24,7 @@ export const createAuthor = async (data: CreateAuthorDTO) => {
   }
 };
 
-// 🔹 Lister tous les auteurs (avec relations)
+// Lister tous les auteurs (avec relations)
 export const getAllAuthors = async () => {
   try {
     return await prisma.author.findMany({
@@ -42,7 +42,7 @@ export const getAllAuthors = async () => {
   }
 };
 
-// 🔹 Récupérer un auteur par ID (avec relations)
+// Récupérer un auteur par ID (avec relations)
 export const getAuthorById = async (id: string) => {
   try {
     const author = await prisma.author.findFirst({
@@ -68,7 +68,7 @@ export const getAuthorById = async (id: string) => {
   }
 };
 
-// 🔹 Mettre à jour un auteur
+// Mettre à jour un auteur
 export const updateAuthor = async (
   id: string,
   data: Partial<CreateAuthorDTO>
@@ -87,7 +87,7 @@ export const updateAuthor = async (
   }
 };
 
-// 🔹 Supprimer un auteur (soft delete)
+// Supprimer un auteur (soft delete)
 export const deleteAuthor = async (id: string) => {
   try {
     return await prisma.author.update({

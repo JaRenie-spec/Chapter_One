@@ -51,20 +51,20 @@ export const protect: RequestHandler = async (req, res, next) => {
     return;
   }
 
-  // 5️⃣ Extraction des informations utilisateur
+  // Extraction des informations utilisateur
   const sub       = payload.sub as string;
   const email     = (payload.email as string) || '';
   const username  = (payload.preferred_username as string) || '';
   const firstName = (payload.given_name as string) || '';
   const lastName  = (payload.family_name as string) || '';
 
-  // 6️⃣ Fusion des rôles realm et client
+  // Fusion des rôles realm et client
   const realmRoles  = (payload.realm_access?.roles as string[])              || [];
   const clientRoles = (payload.resource_access?.[CLIENT_ID]?.roles as string[]) || [];
   const roles = Array.from(new Set([...realmRoles, ...clientRoles]))
     .map(r => r.toLowerCase());
 
-  // 7️⃣ Upsert dans la table account (commune à tous les rôles)
+  // Upsert dans la table account (commune à tous les rôles)
   try {
     await prisma.account.upsert({
       where: { id: sub },

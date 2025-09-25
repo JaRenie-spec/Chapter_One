@@ -14,6 +14,9 @@ import {
 const router = Router();
 
 router.get('/', eventFindAll);
+
+router.get('/author/:authorId', eventFindAllByAuthor);
+
 router.get('/:id', eventFindOne);
 
 router.post('/', protect, requireRole(['author','admin']), validateEvent, eventCreate);
@@ -22,6 +25,5 @@ router.put('/:id', protect, requireRole(['author','admin']), validateEvent, even
 
 router.delete('/:id', protect, requireRole(['author','admin']), eventRemove);
 
-router.get('/author/:authorId', eventFindAllByAuthor);
 
 export default router;

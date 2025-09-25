@@ -9,8 +9,3 @@ export interface KeycloakTokenResponse {
 	token_type: string;
 	scope: string;
 }
-
-interface KeycloakRole {
-	id: string;
-	name: string;
-}

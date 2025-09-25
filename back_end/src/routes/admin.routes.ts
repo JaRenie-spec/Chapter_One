@@ -1,10 +1,5 @@
 import { Router } from "express";
-import {
-  getAllAdminsHandler,
-  getAdminByIdHandler,
-  updateAdminHandler,
-  deleteAdminHandler,
-} from "../controllers/admin.controller";
+import { getAllAdminsHandler, getAdminByIdHandler, updateAdminHandler, deleteAdminHandler } from "../controllers/admin.controller";
 import { requireRole } from "../middlewares/requireRole";
 
 const router = Router();

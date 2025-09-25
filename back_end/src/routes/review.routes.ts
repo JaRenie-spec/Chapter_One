@@ -1,10 +1,7 @@
 import { Router } from 'express';
 import { protect } from '../middlewares/protect';
 import { requireRole } from '../middlewares/requireRole';
-import {
-  validateCreateReview,
-  validateUpdateReview
-} from '../middlewares/review.validator';
+import { validateCreateReview, validateUpdateReview } from '../middlewares/review.validator';
 import {
   findAll as reviewFindAll,
   findOne as reviewFindOne,

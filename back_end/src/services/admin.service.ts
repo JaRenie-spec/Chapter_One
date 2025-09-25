@@ -1,4 +1,3 @@
-/* src/services/admin.service.ts */
 import kcAdmin from '../utils/keycloak';
 import type { CreateAdminInput, UpdateAdminInput } from '../types/admin.schema';
 

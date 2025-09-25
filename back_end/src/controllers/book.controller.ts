@@ -4,21 +4,6 @@ import { AuthenticatedRequest } from '../middlewares/protect'
 
 const prisma = new PrismaClient();
 
-// Type local pour éviter les erreurs de typage avec l'author inclus
-type BookWithAuthor = {
-  title: string;
-  isbn: string;
-  price: number;
-  rating: number | null;
-  fileUrl: string;
-  coverImage: string | null;
-  author: {
-    pseudo: string | null;
-    firstName: string;
-    lastName: string;
-  } | null;
-};
-
 /**
  * GET /books
  */
@@ -56,13 +41,13 @@ export const create: RequestHandler = async (req, res) => {
   const { sub, roles } = (req as AuthenticatedRequest).user;
   const isAdmin = roles.includes('admin');
 
-  // 1️⃣ Empêcher un author de spécifier un other authorId
+  // Empêcher un author de spécifier un other authorId
   if (!isAdmin && req.body.authorId && req.body.authorId !== sub) {
     res.status(403).json({ error: 'Impossible de créer un livre pour un autre auteur' });
 		return;
   }
 
-  // 2️⃣ Déterminer l’auteur final
+  // Déterminer l’auteur final
   const finalAuthorId = isAdmin
     ? req.body.authorId     // admin peut choisir
     : sub;                  // author forcé à lui-même

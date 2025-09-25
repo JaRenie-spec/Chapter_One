@@ -1,8 +1,6 @@
 import { RequestHandler } from 'express';
-import axios from 'axios';
 import { PrismaClient } from '@prisma/client';
 import { AuthenticatedRequest } from '../middlewares/protect';
-import { cp } from 'fs';
 
 const prisma = new PrismaClient();
 
@@ -36,7 +34,7 @@ export const findOne: RequestHandler = async (req, res) => {
 export const me: RequestHandler = async (req, res) => {
   const sub = (req as AuthenticatedRequest).user.sub;
 
-  // 📌 on interroge maintenant `account` et non plus `user`
+  // on interroge maintenant `account` et non plus `user`
   const account = await prisma.account.findUnique({
     where: { id: sub }
   });
@@ -74,7 +72,7 @@ export const updateMe: RequestHandler = async (req, res) => {
 
 /**
  * DELETE /api/users/:id
- * (admin & superadmin uniquement)
+ * (admin uniquement)
  */
 export const remove: RequestHandler = async (req, res) => {
   const { id } = req.params;

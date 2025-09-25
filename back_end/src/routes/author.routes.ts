@@ -14,11 +14,11 @@ const router = Router();
 
 router.get('/', authorFindAll);
 
-router.post('/', protect, requireRole(['admin']), authorCreate);
-
 router.get('/search', findByPublicInfo);
 
 router.get('/:id', authorFindOne);
+
+router.post('/', protect, requireRole(['admin']), authorCreate);
 
 router.put('/:id', protect, requireRole(['author','admin']), authorUpdate);
 
