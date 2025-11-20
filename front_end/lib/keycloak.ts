@@ -1,4 +1,3 @@
-// frontend/src/services/keycloak.ts
 const KEYCLOAK_URL       = process.env.NEXT_PUBLIC_KEYCLOAK_URL!;
 const KEYCLOAK_REALM     = process.env.NEXT_PUBLIC_KEYCLOAK_REALM!;
 const KEYCLOAK_CLIENT_ID = process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID!;
@@ -56,7 +55,7 @@ export class KeycloakService {
    * On accepte le `state` en second argument (même si on ne l'utilise pas ici).
    */
   async handleCallback(code: string, state?: string): Promise<KeycloakUser> {
-    // 1️⃣ Échange code → tokens
+    // Échange code → tokens
     const tokenRes = await fetch(
       `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token`,
       {
@@ -78,7 +77,7 @@ export class KeycloakService {
     // AJOUT : synchronisation authToken
     localStorage.setItem('authToken', this.token);
 
-    // 2️⃣ Récupère userinfo
+    // Récupère userinfo
     const uiRes = await fetch(
       `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
       { headers: { Authorization: `Bearer ${this.token}` } }
@@ -86,7 +85,7 @@ export class KeycloakService {
     this.user = await uiRes.json() as KeycloakUser;
     localStorage.setItem('keycloak_user', JSON.stringify(this.user));
 
-    // 3️⃣ Synchronise en base (via /api/users/me protégé)
+    // Synchronise en base (via /api/users/me protégé)
     const syncRes = await fetch('/api/users/me', {
       headers: { Authorization: `Bearer ${this.token}` }
     });
@@ -110,37 +109,9 @@ export class KeycloakService {
 		};
 
 		localStorage.setItem('keycloak_user', JSON.stringify(this.user));
-    // AJOUT : synchronisation authToken (par sécurité)
     localStorage.setItem('authToken', this.token);
 
     return this.user!;
-  }
-
-  // Récupérer les informations utilisateur
-  private async getUserInfo(): Promise<KeycloakUser> {
-    if (!this.token) {
-      throw new Error('Aucun token disponible');
-    }
-
-    const userInfoUrl = `${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/userinfo`;
-
-    const response = await fetch(userInfoUrl, {
-      headers: {
-        'Authorization': `Bearer ${this.token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Erreur lors de la récupération des informations utilisateur');
-    }
-
-    const user = await response.json();
-    // Injecter les rôles à partir du token JWT
-    const decoded = parseJwt(this.token);
-    if (decoded && decoded.realm_access && decoded.realm_access.roles) {
-      user.realm_access = decoded.realm_access;
-    }
-    return user;
   }
 
   // Rafraîchir le token

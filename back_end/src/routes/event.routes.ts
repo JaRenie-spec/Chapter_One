@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { protect } from '../middlewares/protect';
 import { requireRole } from '../middlewares/requireRole';
-import { validateEvent } from '../middlewares/event.validator';
+import { validateEvent } from '../types/event.types';
 import {
   findAll as eventFindAll,
   findOne as eventFindOne,

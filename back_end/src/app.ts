@@ -12,7 +12,7 @@ const app = express();
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://votre-domaine.com']
+    ? ['https://notre-domaine.com']
     : ['http://localhost:3001', 'http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

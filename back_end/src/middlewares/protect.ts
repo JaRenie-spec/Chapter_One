@@ -16,7 +16,7 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export const protect: RequestHandler = async (req, res, next) => {
-  // 1️⃣ Vérification de la présence du token
+  // Vérification de la présence du token
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) {
     res.status(401).json({ error: 'Token manquant ou invalide' });
@@ -24,14 +24,14 @@ export const protect: RequestHandler = async (req, res, next) => {
   }
   const token = authHeader.slice(7);
 
-  // 2️⃣ Décodage de l’en-tête pour récupérer le kid
+  // 2Décodage de l’en-tête pour récupérer le kid ( Keycloak ID )
   const decodedHeader = jwt.decode(token, { complete: true }) as { header: JwtHeader } | null;
   if (!decodedHeader) {
     res.status(401).json({ error: 'Impossible de décoder le token' });
     return;
   }
 
-  // 3️⃣ Récupération de la clé publique correspondante
+  // Récupération de la clé publique correspondante
   let publicKey: string;
   try {
     publicKey = await getPublicKey(decodedHeader.header.kid as string);

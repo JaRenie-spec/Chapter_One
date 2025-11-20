@@ -11,104 +11,128 @@
   font-family: 'Quicksand', sans-serif;
 }
 
-/* === RESET & CENTRAGE === */
+/* === RESET === */
 * {
   box-sizing: border-box;
 }
+
 html, body {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
+
+/* === FOND BEIGE === */
 body {
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg);
   font-family: 'Quicksand', sans-serif;
+  padding: 20px;
 }
 
-/* === CONTAINER === */
-#kc-container,              /* pour Keycloak 20+ */
-#kc-login {                 /* pour Keycloak <20 */
+/* === STRUCTURE PRINCIPALE === */
+body > div {
   width: 100%;
-  max-width: 420px;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-  overflow: visible;
-  border: none;
-  transition: all 0.3s ease;
+  max-width: 480px;
 }
 
-#kc-container:hover,
-#kc-login:hover {
-  transform: translateY(-3px);
-}
-
-/* === HEADER (nom du realm) === */
+/* === HEADER "CHAPTER_ONE" EN BLEU === */
 #kc-header {
-  background: var(--primary);
-  color: #fff;
-  padding: 2.5rem 1.5rem;
+  background: transparent;
+  margin-bottom: 2rem;
   text-align: center;
+}
+
+#kc-header-wrapper {
+  color: var(--primary);
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+/* === CARTE BLANCHE POUR TOUT LE FORMULAIRE === */
+body > div > div:last-child {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* === TITRE "SIGN IN TO YOUR ACCOUNT" === */
+header {
+  margin-bottom: 2rem;
+}
+
+#kc-page-title {
+  color: var(--secondary);
   font-size: 1.75rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  border-radius: 40px 40px 0 0;
-}
-
-/* === CONTENU DU FORMULAIRE === */
-#kc-content {
-  padding: 2.5rem;
-  background: #fff;
-  border-radius: 0 0 40px 40px;
-  box-shadow: 0 8px 40px 0 rgba(24,59,78,0.06);
-}
-
-/* === TITRE "CONNEXION" === */
-#kc-content > h1,
-#kc-content > h2 {
-  margin: 0 0 2.5rem;
-  font-size: 2rem;
-  color: var(--secondary);
   text-align: center;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  margin: 0;
 }
 
-/* === LABELS & INPUTS ==== */
-#kc-form-login label {
-  display: block;
-  font-weight: 600;
-  color: var(--secondary);
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
+/* === CONTENU === */
+#kc-content,
+#kc-content-wrapper,
+#kc-form,
+#kc-form-wrapper {
+  background: transparent;
 }
 
-#kc-form-login input[type="text"],
-#kc-form-login input[type="password"] {
+/* === FORMULAIRE === */
+#kc-form-login {
   width: 100%;
-  padding: 1.2rem;
-  border: 1px solid rgba(39,84,138,0.1);
-  border-radius: 20px;
-  margin-bottom: 1.8rem;
+}
+
+/* === CHAMPS === */
+#kc-form-login > div {
+  margin-bottom: 1.5rem;
+}
+
+/* === LABELS === */
+label {
+  display: block;
+  color: var(--secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* === INPUTS === */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 1rem 1.2rem;
   font-size: 1rem;
   font-family: 'Quicksand', sans-serif;
-  background: rgba(252,244,229,0.5);
+  color: var(--secondary);
+  background: var(--summer-extra-soft);
+  border: 1px solid rgba(39, 84, 138, 0.2);
+  border-radius: 12px;
   transition: all 0.3s ease;
-  box-shadow: none;
-}
-
-#kc-form-login input:focus {
-  border-color: var(--primary);
   outline: none;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(39,84,138,0.1);
-  transform: none;
 }
 
-/* === BOUTON TOGGLE MOT DE PASSE === */
-#kc-form-login button[data-password-toggle] {
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(39, 84, 138, 0.1);
+}
+
+/* === CONTAINER PASSWORD AVEC BOUTON === */
+#kc-form-login input[type="password"] {
+  padding-right: 3.5rem;
+}
+
+/* Wrapper du champ password */
+#kc-form-login > div:nth-child(2) > div {
+  position: relative;
+}
+
+/* === BOUTON TOGGLE PASSWORD === */
+button[data-password-toggle] {
   position: absolute;
   right: 1rem;
   top: 50%;
@@ -120,99 +144,141 @@ body {
   padding: 0.5rem;
   border-radius: 50%;
   transition: all 0.2s ease;
+  width: 2rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
 }
 
-#kc-form-login button[data-password-toggle]:hover {
-  background: rgba(39,84,138,0.1);
+button[data-password-toggle]:hover {
+  background: rgba(39, 84, 138, 0.1);
   color: var(--primary);
 }
 
-#kc-form-login button[data-password-toggle]:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(39,84,138,0.2);
+/* === FORGOT PASSWORD === */
+#kc-form-options + div {
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-/* === POSITIONNEMENT RELATIF POUR LE CHAMP PASSWORD === */
-#kc-form-login input[type="password"] {
-  position: relative;
-  padding-right: 3.5rem;
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
-/* === BOUTON "SE CONNECTER" === */
-#kc-form-buttons input[type="submit"] {
+a:hover {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+/* === BOUTON SUBMIT === */
+#kc-form-buttons {
+  margin-top: 2rem;
+}
+
+#kc-login {
   width: 100%;
   padding: 1.2rem 2rem;
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  border-radius: 20px;
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: 'Quicksand', sans-serif;
+  color: white;
+  background: var(--primary);
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Quicksand', sans-serif;
-  box-shadow: 0 4px 20px 0 rgba(39,84,138,0.15);
-  letter-spacing: 0.3px;
+  box-shadow: 0 4px 15px rgba(39, 84, 138, 0.2);
 }
 
-#kc-form-buttons input[type="submit"]:hover {
+#kc-login:hover {
   background: var(--secondary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px 0 rgba(39,84,138,0.25);
+  box-shadow: 0 6px 20px rgba(39, 84, 138, 0.3);
 }
 
-#kc-form-buttons input[type="submit"]:active {
+#kc-login:active {
   transform: translateY(0);
-  box-shadow: 0 4px 20px 0 rgba(39,84,138,0.15);
 }
 
-/* === LIENS BAS DE PAGE === */
-#kc-content .kc-form-options,
-#kc-content .kc-form-options a {
-  display: none;
+/* === INFO "NEW USER? REGISTER" === */
+#kc-info {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(39, 84, 138, 0.1);
+  text-align: center;
 }
 
-/* === MESSAGES D'ERREUR === */
-#kc-form-login .alert {
+#kc-info-wrapper {
+  color: var(--secondary);
+  font-size: 0.95rem;
+}
+
+/* === MESSAGES D'ALERTE === */
+.alert {
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.alert-error {
   background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
   border: 2px solid #f87171;
-  border-radius: 16px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
   color: #dc2626;
-  font-weight: 500;
-  box-shadow: 0 4px 16px 0 rgba(220,38,38,0.1);
 }
 
-/* === MESSAGES DE SUCCÈS === */
-#kc-form-login .alert-success {
+.alert-success {
   background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
   border: 2px solid #4ade80;
   color: #16a34a;
-  box-shadow: 0 4px 16px 0 rgba(22,163,74,0.1);
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #fbbf24;
+  color: #d97706;
 }
 
 /* === RESPONSIVE === */
 @media (max-width: 480px) {
-  #kc-container,
-  #kc-login {
-    max-width: 95%;
-    margin: 0 10px;
+  body {
+    padding: 10px;
   }
 
-  #kc-content {
-    padding: 2rem 1.5rem;
-    border-radius: 0 0 30px 30px;
+  body > div {
+    max-width: 100%;
   }
 
   #kc-header {
-    padding: 1.5rem 1rem;
-    font-size: 1.25rem;
-    border-radius: 30px 30px 0 0;
+    margin-bottom: 1.5rem;
+  }
+
+  #kc-header-wrapper {
+    font-size: 2rem;
+  }
+
+  body > div > div:last-child {
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+  }
+
+  #kc-page-title {
+    font-size: 1.5rem;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 0.875rem 1rem;
+  }
+
+  #kc-login {
+    padding: 1rem 1.5rem;
   }
 }

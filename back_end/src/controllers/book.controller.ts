@@ -140,19 +140,19 @@ export const update: RequestHandler = async (req, res) => {
 		return;
   }
 
-  // 1️⃣ Empêcher un author de toucher un livre qui n'est pas le sien
+  // Empêcher un author de toucher un livre qui n'est pas le sien
   if (!isAdmin && book.authorId !== sub) {
     res.status(403).json({ error: 'Impossible de modifier ce livre' });
 		return;
   }
 
-  // 2️⃣ Empêcher un author de réassigner le livre à un autre auteur
+  // Empêcher un author de réassigner le livre à un autre auteur
   if (!isAdmin && req.body.authorId && req.body.authorId !== sub) {
     res.status(403).json({ error: 'Impossible de changer l’auteur du livre' });
 		return;
   }
 
-  // 3️⃣ Déterminer l’auteur final pour l’update
+  // Déterminer l’auteur final pour l’update
   const finalAuthorId = isAdmin
     ? req.body.authorId ?? book.authorId  // admin peut changer ou conserver
     : sub;                                 // author reste lui-même

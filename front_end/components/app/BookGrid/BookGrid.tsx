@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import BookCard from '../BookCard/BookCard'
 import type { Book } from '@/lib/api'
 import { useCart } from '@/lib/hooks/useCart'
